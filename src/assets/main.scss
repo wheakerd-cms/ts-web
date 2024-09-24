@@ -1,0 +1,33 @@
+@import 'bootstrap/scss/bootstrap.scss';
+
+$theme-colors: (
+	dark: (
+		bs-body-color: #ffffff,
+		bs-body-bg: #000000,
+	),
+	light: (
+		bs-body-color: #ffffff,
+		bs-body-bg: #f5f5f5,
+	),
+);
+
+$themeMap: ();
+
+@mixin theme($themeColors) {
+	@each $key, $value in $themeColors {
+		$themeMap: $value !global;
+		--#{$key}: #{$value};
+	}
+}
+
+@function getThemeName($subName) {
+	@return map-get($themeMap, $subName);
+}
+
+:root, [data-bs-theme="dark"] {
+	@include theme(map-get($theme-colors, 'dark'));
+}
+
+:root, [data-bs-theme="light"] {
+	@include theme(map-get($theme-colors, 'light'));
+}
