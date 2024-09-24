@@ -1,0 +1,26 @@
+[install]
+registry = "https://registry.npmmirror.com/"
+
+# whether to install optionalDependencies
+optional = true
+
+# whether to install devDependencies
+dev = true
+
+# whether to install peerDependencies
+peer = true
+
+# equivalent to `--production` flag
+production = false
+
+# equivalent to `--frozen-lockfile` flag
+frozenLockfile = false
+
+# equivalent to `--dry-run` flag
+dryRun = false
+
+# equivalent to `--concurrent-scripts` flag
+concurrentScripts = 20 # (cpu count or GOMAXPROCS) x2
+
+[install.lockfile]
+save = true
