@@ -4,11 +4,10 @@ import {defineConfig, loadEnv} from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueDevTools from 'vite-plugin-vue-devtools';
 
-// https://cn.vitejs.dev/config/
+// EN: https://vitejs.dev/config/
+// CN: https://cn.vitejs.dev/config/
 export default defineConfig(({mode}: { mode: string }) => {
-
 	const ENV: Record<string, string> = loadEnv(mode, process.cwd());
-
 	return {
 		server: {
 			host: '0.0.0.0',
