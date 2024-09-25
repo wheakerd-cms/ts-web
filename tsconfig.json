@@ -1,4 +1,10 @@
 {
+	"compilerOptions": {
+		"lib": [
+			"ES2023",
+			"DOM"
+		]
+	},
 	"files": [],
 	"references": [
 		{
