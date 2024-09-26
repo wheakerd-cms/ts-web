@@ -1,5 +1,12 @@
-<script setup lang="tsx">
-import {type Reactive, reactive} from "vue";
+<script setup lang="ts">
+import {type Reactive, reactive, unref} from "vue";
+import {usePermissionsStore, defineRoutes} from "@/app/admin/stores/permissionsStore";
+import type {RouteRecordRaw} from "vue-router";
+import router from "@/router";
+
+const permissionsStore = usePermissionsStore();
+
+const {initRoutes} = permissionsStore;
 
 interface formInterface {
 	username: string | null,
@@ -12,13 +19,18 @@ const form: Reactive<formInterface> = reactive({
 });
 
 const onSubmit = () => {
-	console.log('submit!')
+	initRoutes(defineRoutes as RouteRecordRaw []).then(() => {
+		permissionsStore.getRouters.forEach((route: RouteRecordRaw) => {
+			router.addRoute(route);
+		});
+	});
+	router.push('/items/items-1');
 };
 </script>
 
 <template>
 	<div class="position-fixed top-0 start-0 text-white p-4 z-1">
-		<img src="@/assets/logo.svg" alt="logo" style="width: 32px;"/>
+		<img src="../../../../assets/logo.svg" alt="logo" style="width: 32px;"/>
 		<span class="ms-2">后台管理系统</span>
 	</div>
 	<div class="min-vw-100 min-vh-100 background d-flex align-items-center justify-content-center">

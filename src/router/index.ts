@@ -1,8 +1,15 @@
-import {createRouter, createWebHistory, type Router, type RouteRecordNormalized} from 'vue-router';
-import adminRouter from '@/app/admin/router';
+import {createRouter, createWebHistory, type Router} from "vue-router";
+// import adminRouter from "@/app/admin/router";
 
-const routerList: { [key: string]: Router } = {
-	admin: adminRouter,
+// const routerList: { [key: string]: Router } = {
+// 	admin: adminRouter,
+// };
+
+const routerList: { [key: string]: () => Promise<Router> } = {
+	admin: async (): Promise<Router> => {
+		const module = await import(`@/app/admin/router`);
+		return module.default;
+	},
 };
 
 const mode: string = import.meta.env.MODE || 'development';
@@ -19,11 +26,20 @@ let router: Router = createRouter({
 });
 
 if (app && Object.hasOwn(routerList, app)) {
-	const routes: RouteRecordNormalized [] = routerList [app].getRoutes();
 
-	routes.forEach((route: RouteRecordNormalized): void => {
-		router.addRoute(route);
-	});
+	const getRouter = async (app: string) => {
+		const router: Router = await routerList[app](); // 确保这是一个调用
+		return router; // 如果需要返回 router
+	};
+
+
+
+
+	// const routes: RouteRecordNormalized [] = routerList [app].getRoutes();
+	//
+	// routes.forEach((route: RouteRecordNormalized): void => {
+	// 	router.addRoute(route);
+	// });
 } else {
 	router.addRoute({
 		path: '/:pathMatch(.*)*',

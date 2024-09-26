@@ -1,32 +1,66 @@
-import {createRouter, createWebHistory, type Router} from 'vue-router';
+import {createRouter, createWebHistory, type Router, type RouteRecordRaw} from "vue-router";
+import {usePermissionsStoreWithout} from "@/app/admin/stores/permissionsStore";
 
-const BASE_URL: () => string = (() => {
+console.log(
+	usePermissionsStoreWithout().getRouters,
+)
 
-	console.log(import.meta.env.BASE_URL);
+export const baseRouter: { [key: string]: any } [] = [
+	{
+		path: '/',
+		name: 'index',
+		redirect: '/home',
+	},
+	{
+		path: '/login',
+		name: 'login',
+		component: () => import(`@/app/admin/views/index/LoginView.vue`),
+	},
+	{
+		path: '/home',
+		name: 'home',
+		component: () => import(`@/app/admin/views/LayoutView.vue`),
+	},
+	{
+		path: '/:pathMatch(.*)*',
+		name: 'NotFound',
+		component: () => import(`@/views/404.vue`),
+	},
+];
 
-	return import.meta.env.BASE_URL;
-});
+// console.log(unref(baseRouter));
 
 const router: Router = createRouter({
 	history: createWebHistory(
-		BASE_URL()
+		import.meta.env.BASE_URL
 	),
 	routes: [
-		{
-			path: '/',
-			redirect: '/login',
-		},
-		{
-			path: '/login',
-			name: 'login',
-			component: () => import(`@/app/admin/views/LoginView.vue`),
-		},
 		{
 			path: '/:pathMatch(.*)*',
 			name: 'NotFound',
 			component: () => import(`@/views/404.vue`),
 		},
 	],
+});
+
+baseRouter.forEach((route: { [key: string]: any }) => {
+	router.addRoute(route as RouteRecordRaw);
+});
+
+console.log(
+	router.getRoutes()
+)
+
+router.beforeEach(async (to, from, next) => {
+
+	console.log(
+		to,
+		from,
+		// next,
+	);
+
+	next();
+
 });
 
 export default router;
