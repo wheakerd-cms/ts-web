@@ -5,11 +5,9 @@ interface stateInterface {
 }
 
 export const useAppStore = defineStore('app', {
-	state: (): stateInterface => {
-		return {
-			theme: 'light',
-		};
-	},
+	state: (): stateInterface => ({
+		theme: 'light',
+	}),
 	actions: {},
 	persist: true,
 });

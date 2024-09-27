@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import {type Reactive, reactive, unref} from "vue";
-import {usePermissionsStore, defineRoutes} from "@/app/admin/stores/permissionsStore";
+import {type Reactive, reactive} from "vue";
+import {usePermissionsStore, defineRoutes} from "@/app/admin/stores/permissionStore";
 import type {RouteRecordRaw} from "vue-router";
 import router from "@/router";
+import {useUserInfoStore} from "@/app/admin/stores/userinfoStore";
 
 const permissionsStore = usePermissionsStore();
-
-const {initRoutes} = permissionsStore;
+const userInfoStore = useUserInfoStore();
 
 interface formInterface {
 	username: string | null,
@@ -18,13 +18,21 @@ const form: Reactive<formInterface> = reactive({
 	password: null,
 });
 
-const onSubmit = () => {
-	initRoutes(defineRoutes as RouteRecordRaw []).then(() => {
-		permissionsStore.getRouters.forEach((route: RouteRecordRaw) => {
-			router.addRoute(route);
-		});
+const onSubmit = async () => {
+
+	// login
+	userInfoStore.setAuthorization('authorization');
+	userInfoStore.setToken('token');
+
+	permissionsStore.setAddRouters(defineRoutes as RouteRecordRaw []);
+	await permissionsStore.initRoutes(defineRoutes as RouteRecordRaw []);
+
+	permissionsStore.getRouters.forEach((route: RouteRecordRaw) => {
+		router.addRoute(route);
 	});
-	router.push('/items/items-1');
+	permissionsStore.setIsAddRouters(true);
+
+	await router.push('/dashboard/analysis');
 };
 </script>
 

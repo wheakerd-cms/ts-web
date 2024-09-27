@@ -1,33 +1,20 @@
 import {defineStore} from "pinia";
 import type {RouteRecordRaw} from "vue-router";
-import router from "@/router";
 import {pinia} from "@/plugin/pinia";
-import LayoutView from "@/app/admin/views/LayoutView.vue";
 import {baseRouter} from "@/app/admin/router";
 import {cloneDeep} from "lodash";
 
 const modules: Record<
 	string,
 	() => Promise<unknown>
-> = import.meta.glob(`/src/app/admin/views/**/*.{vue,tsx}`);
+> = import.meta.glob([
+	`/src/views/**/*.{vue,tsx}`,
+	`/src/app/admin/views/**/*.{vue,tsx}`,
+]);
 
-// import type {defineComponent} from "vue";
+console.log(modules)
 
-interface routerMetaInterface {
-	title: string;
-	icon?: string;
-	permissions: string[];
-}
-
-// type Component<T = any> =
-// 	| ReturnType<typeof defineComponent>
-// 	| (() => Promise<typeof import('*.vue')>)
-// 	| (() => Promise<T>);
-
-interface stateInterface {
-	routers: RouteRecordRaw [],
-	addRouters: RouteRecordRaw [],
-}
+const LayoutView = () => import('@/app/admin/views/LayoutView.vue');
 
 const generateRoutes = (routes: RouteRecordRaw[]): RouteRecordRaw [] => {
 
@@ -43,16 +30,11 @@ const generateRoutes = (routes: RouteRecordRaw[]): RouteRecordRaw [] => {
 	];
 
 	routers.forEach((route: { [key: string]: any }): void => {
-
-		// const data: { [key: string]: any } = Object.keys(route).filter(
-		// 	(key: string) => filterKey.includes(key)
-		// );
-
 		const data: { [key: string]: any } = Object.entries<[string, any] []>(route).reduce<{
 			[key: string]: any
 		}>(
 			(obj: { [key: string]: any }, [key, value]: [string, [string, any] []]) => {
-				if (requiredKey.includes(key)) obj [key] = value;
+				if (requiredKey.includes(key) && !!value) obj [key] = value;
 				return obj;
 			}, {} as { [key: string]: any }
 		);
@@ -62,7 +44,9 @@ const generateRoutes = (routes: RouteRecordRaw[]): RouteRecordRaw [] => {
 		if (!!component) {
 			const comModule =
 				modules [`/src/app/admin/views/${component}.vue`] ||
-				modules [`/src/app/admin/views/${component}.tsx`];
+				modules [`/src/app/admin/views/${component}.tsx`] ||
+				modules [`/src/views/${component}.vue`] ||
+				modules [`/src/views/${component}.tsx`];
 
 			if (!comModule && !component.includes('#')) {
 				console.error(
@@ -86,42 +70,56 @@ const generateRoutes = (routes: RouteRecordRaw[]): RouteRecordRaw [] => {
 	return routerMap;
 };
 
-export const usePermissionsStore = defineStore('permissions', {
+
+interface stateInterface {
+	routers: RouteRecordRaw [];
+	addRouters: RouteRecordRaw [];
+	isAddRouters: boolean;
+}
+
+export const usePermissionsStore = defineStore('admin.permission', {
 	state: (): stateInterface => ({
 		routers: [] as RouteRecordRaw [],
 		addRouters: [] as RouteRecordRaw [],
+		isAddRouters: false,
 	}),
 	getters: {
-		getRouters(state) {
-
-			console.log(state.routers)
-
-			return state.routers;
+		getRouters(): RouteRecordRaw [] {
+			return this.routers;
+		},
+		getAddRouters(): RouteRecordRaw [] {
+			return this.addRouters;
+		},
+		getIsAddRouters(): boolean {
+			return this.isAddRouters;
 		},
 	},
 	actions: {
 		initRoutes(routes: RouteRecordRaw []): Promise<unknown> {
 			return new Promise<void>((resolve): void => {
-				let routerMapping: RouteRecordRaw [] = generateRoutes(routes);
-
-				this.routers = cloneDeep(baseRouter).concat(routerMapping) as RouteRecordRaw [];
-
-				console.log(this.routers);
-
+				const routers: RouteRecordRaw [] = generateRoutes(routes);
+				this.routers = cloneDeep(baseRouter).concat(routers) as RouteRecordRaw [];
 				resolve();
 			});
 		},
-		setAddRouters(routes: RouteRecordRaw []) {
-			this.routers = routes;
-
-			this.routers.forEach((route: RouteRecordRaw) => {
-				// router.addRoute(route);
-			});
-
-			console.log(router.getRoutes())
+		setAddRouters(routes: RouteRecordRaw []): void {
+			this.addRouters = routes.concat([
+				{
+					path: '/:path(.*)*',
+					redirect: '/404',
+					name: 'NotFound',
+				},
+			] as unknown as RouteRecordRaw []);
+		},
+		setIsAddRouters(value: boolean): void {
+			this.isAddRouters = value;
 		},
 	},
-	persist: true,
+	persist: {
+		pick: [
+			'addRouters',
+		],
+	},
 });
 
 export const usePermissionsStoreWithout = () => {
@@ -129,6 +127,21 @@ export const usePermissionsStoreWithout = () => {
 };
 
 export const defineRoutes: { [key: string]: any }[] = [
+	{
+		path: '/dashboard',
+		name: 'dashboard',
+		redirect: '/dashboard/analysis',
+		component: `#`,
+		meta: {},
+		children: [
+			{
+				path: 'analysis',
+				name: 'dashboard-analysis',
+				component: `items/FormItem`,
+				meta: {},
+			},
+		],
+	},
 	{
 		path: '/items',
 		name: 'items',

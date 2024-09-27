@@ -17,10 +17,6 @@
 				"./src/*"
 			]
 		},
-		"lib": [
-			"ES2023",
-			"DOM"
-		],
 		"types": [
 			"vite/client"
 		]

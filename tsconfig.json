@@ -1,9 +1,16 @@
 {
 	"compilerOptions": {
+		"target": "esnext",
+		"module": "ESNext",
+		"moduleResolution": "node",
+		"types": [
+			"node"
+		],
 		"lib": [
 			"ES2023",
 			"DOM"
-		]
+		],
+		"strict": true
 	},
 	"files": [],
 	"references": [
