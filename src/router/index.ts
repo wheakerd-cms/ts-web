@@ -21,7 +21,7 @@ const defaultRoute: Router = createRouter({
 		}
 	],
 });
-console.log(456)
+
 const router: Router = !!app && routerModules.hasOwnProperty(app) ? routerModules[app] : defaultRoute;
-console.log(456)
+
 export default router;

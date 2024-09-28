@@ -7,6 +7,7 @@ interface stateInterface {
 export const useAppStore = defineStore('app', {
 	state: (): stateInterface => ({
 		theme: 'light',
+
 	}),
 	actions: {},
 	persist: true,

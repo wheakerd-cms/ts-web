@@ -65,6 +65,7 @@ router.beforeEach(async (to, from, next) => {
 	const redirectPath = from.query.redirect || to.path;
 	const redirect = decodeURIComponent(redirectPath as string);
 	const nextData = redirect && to.path !== redirect ? {...to, replace: true} : {path: redirect};
+
 	next(nextData);
 });
 
