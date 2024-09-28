@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import {type Reactive, reactive} from "vue";
-import {usePermissionsStore, defineRoutes} from "@/app/admin/stores/permissionStore";
+import {defineRoutes} from "@/app/admin/stores/permissionStore";
 import type {RouteRecordRaw} from "vue-router";
 import router from "@/router";
 import {useUserInfoStore} from "@/app/admin/stores/userinfoStore";
+import {useRouterStoreWithout} from "@/stores/router";
 
-const permissionsStore = usePermissionsStore();
+const routerStore = useRouterStoreWithout();
 const userInfoStore = useUserInfoStore();
 
 interface formInterface {
@@ -24,13 +25,12 @@ const onSubmit = async () => {
 	userInfoStore.setAuthorization('authorization');
 	userInfoStore.setToken('token');
 
-	permissionsStore.setAddRouters(defineRoutes as RouteRecordRaw []);
-	await permissionsStore.initRoutes(defineRoutes as RouteRecordRaw []);
+	await routerStore.initRoutes(defineRoutes as RouteRecordRaw []);
 
-	permissionsStore.getRouters.forEach((route: RouteRecordRaw) => {
+	routerStore.getRouters.forEach((route: RouteRecordRaw) => {
 		router.addRoute(route);
 	});
-	permissionsStore.setIsAddRouters(true);
+	routerStore.setIsAddRouters(true);
 
 	await router.push('/dashboard/analysis');
 };

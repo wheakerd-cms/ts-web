@@ -1,31 +1,45 @@
-// noinspection JSUnusedGlobalSymbols
-
 import {cloneDeep} from "lodash";
 import type {Router, RouteRecordRaw} from "vue-router";
+import type {ReturnTypeRouter} from "@/config/types";
+import {useAppStore} from "@/stores/app";
 
-export type ReturnTypeRouter<T> = () => Promise<T | (ReturnTypeRouter<T>)>;
+const modules = () => {
+	const routerModules: Record<string, ReturnTypeRouter<unknown>> =
+		import.meta.glob(`/src/app/**/router/*.ts`);
 
-const modules: Record<string, ReturnTypeRouter<unknown>> =
-	import.meta.glob(`/src/**/*.{vue,tsx}`);
+	const viewModules: Record<string, ReturnTypeRouter<unknown>> =
+		import.meta.glob([
+			`/src/app/**/views/**/*.{vue,tsx}`,
+			`/src/views/**/*.{vue,tsx}`,
+		]);
+
+	return {
+		routerModules,
+		viewModules,
+	};
+};
 
 const viewModules = (): { [key: string]: Function } => {
+
+	const layoutView: ReturnTypeRouter<any> = useAppStore().getLayoutView;
+
 	const getModule = (component: string): ReturnTypeRouter<unknown> => {
+		const viewModules: Record<string, ReturnTypeRouter<unknown>> = modules().viewModules;
 
 		const comModule: ReturnTypeRouter<unknown> =
-			modules [`/src/${component}.vue`] ||
-			modules [`/src/${component}.tsx`];
+			viewModules [`/src/${component}.vue`] ||
+			viewModules [`/src/${component}.tsx`];
 
 		if (!comModule && !component.includes('#')) {
-			console.error(`未找到/src/${component}.vue文件或/src/${component}.tsx文件，请创建`);
+			console.error(
+				`View model missing: /src/${component}.vue file or /src/${component}.tsx file not found, please create`
+			);
 		}
 
 		return comModule;
 	};
 
-	const generateRoutes = (
-		routes: RouteRecordRaw [],
-		layoutView: ReturnTypeRouter<any>,
-	): RouteRecordRaw[] => {
+	const generateRoutes = (routes: RouteRecordRaw []): RouteRecordRaw[] => {
 		const routers: RouteRecordRaw [] = cloneDeep(routes);
 
 		let routerMap: RouteRecordRaw [] = [];
@@ -64,7 +78,7 @@ const viewModules = (): { [key: string]: Function } => {
 			}
 
 			if (!!route.children) {
-				data.children = generateRoutes(route.children, layoutView);
+				data.children = generateRoutes(route.children);
 			}
 
 			routerMap.push(data as RouteRecordRaw);
@@ -73,7 +87,6 @@ const viewModules = (): { [key: string]: Function } => {
 		return routerMap;
 	}
 
-
 	return {
 		getModule,
 		generateRoutes,
@@ -81,12 +94,16 @@ const viewModules = (): { [key: string]: Function } => {
 };
 
 const routerModules = () => {
+	const {
+		routerModules,
+	} = modules();
+
 	const getRouterPath = (app: string): string => {
 		return `/src/app/${app}/router/index.ts`;
 	};
 
 	const hasRouterModule = (app: string): boolean => {
-		return modules.hasOwnProperty(
+		return routerModules.hasOwnProperty(
 			getRouterPath(app)
 		);
 	};
@@ -97,15 +114,16 @@ const routerModules = () => {
 		}
 
 		const routerModule: {
-			default: Router
-		} = await modules [getRouterPath(app)]() as {
-			default: Router
+			default: Router;
+		} = await routerModules [getRouterPath(app)]() as {
+			default: Router;
 		};
 
 		return routerModule.default;
 	};
 
 	return {
+		hasRouterModule,
 		getRouterModule,
 	};
 };

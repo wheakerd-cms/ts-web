@@ -1,61 +1,27 @@
 <script setup lang="tsx">
-import {Document, Location, Menu, Setting} from "@element-plus/icons-vue";
-import {useAppStore} from "@/app/admin/stores/appStore";
-import router from "@/router";
+import MenuComponent from "@/app/admin/components/Menu.vue";
+import logoImage from "@/assets/logo.svg";
 
 const handleOpen = (key: string, keyPath: string[]) => {
 	console.log(key, keyPath);
 }
 const handleClose = (key: string, keyPath: string[]) => {
-	console.log(key, keyPath)
+	console.log(key, keyPath);
 }
 </script>
 <template>
-	<el-menu
-		active-text-color="#ffd04b"
-		background-color="#545c64"
-		class="el-menu-vertical-demo"
-		default-active="2"
-		text-color="#fff"
-		@open="handleOpen"
-		@close="handleClose"
-	>
-		<el-sub-menu index="1">
+	<nav :style="{
+		width: '220px',
+		height: '100vh',
+	}">
+		<MenuComponent class-name="h-100">
 			<template #title>
-				<el-icon>
-					<Location/>
-				</el-icon>
-				<span>Navigator One</span>
+				<div class="d-flex align-items-center">
+					<img :src="logoImage"
+						 alt="logo" style="width: 32px;"/>
+					<span class="ms-2">后台管理系统</span>
+				</div>
 			</template>
-			<el-menu-item-group title="Group One">
-				<el-menu-item index="1-1">item one</el-menu-item>
-				<el-menu-item index="1-2">item two</el-menu-item>
-			</el-menu-item-group>
-			<el-menu-item-group title="Group Two">
-				<el-menu-item index="1-3">item three</el-menu-item>
-			</el-menu-item-group>
-			<el-sub-menu index="1-4">
-				<template #title>item four</template>
-				<el-menu-item index="1-4-1">item one</el-menu-item>
-			</el-sub-menu>
-		</el-sub-menu>
-		<el-menu-item index="2">
-			<el-icon>
-				<Menu/>
-			</el-icon>
-			<span>Navigator Two</span>
-		</el-menu-item>
-		<el-menu-item index="3" disabled>
-			<el-icon>
-				<Document/>
-			</el-icon>
-			<span>Navigator Three</span>
-		</el-menu-item>
-		<el-menu-item index="4">
-			<el-icon>
-				<Setting/>
-			</el-icon>
-			<span>Navigator Four</span>
-		</el-menu-item>
-	</el-menu>
+		</MenuComponent>
+	</nav>
 </template>

@@ -12,13 +12,17 @@
 	},
 	"dependencies": {
 		"@element-plus/icons-vue": "^2.3.1",
+		"@types/bootstrap": "^5.2.10",
+		"@types/vue": "^2.0.0",
+		"@vitejs/plugin-vue-jsx": "^4.0.1",
+		"@vue/compiler-sfc": "^3.5.10",
 		"bootstrap": "5.3.0-alpha1",
 		"element-plus": "^2.8.3",
 		"lodash": "^4.17.21",
 		"pinia": "^2.2.2",
 		"pinia-plugin-persistedstate": "^4.0.2",
 		"sass-embedded": "1.57.1",
-		"vue": "^3.4.29",
+		"vue": "^3.5.10",
 		"vue-router": "^4.3.3"
 	},
 	"devDependencies": {

@@ -1,12 +1,12 @@
 import {createRouter, createWebHistory, type Router, type RouteRecordRaw} from "vue-router";
-import {usePermissionsStoreWithout} from "@/app/admin/stores/permissionStore";
 import {useUserInfoStore} from "@/app/admin/stores/userinfoStore";
+import {useRouterStoreWithout} from "@/stores/router";
 
 const NO_REDIRECT_WHITE_LIST: string [] = [
 	'/login',
 ];
 
-export const baseRouter: { [key: string]: any } [] = [
+const baseRouter: { [key: string]: any } [] = [
 	{
 		path: '/',
 		name: 'index',
@@ -21,7 +21,7 @@ export const baseRouter: { [key: string]: any } [] = [
 		path: '/404',
 		name: '404',
 		component: () => import(`@/views/404.vue`),
-	}
+	},
 ];
 
 const router: Router = createRouter({
@@ -34,7 +34,7 @@ baseRouter.forEach((route: { [key: string]: any }) => {
 });
 
 router.beforeEach(async (to, from, next) => {
-	const permissionsStore = usePermissionsStoreWithout()
+	const routerStore = useRouterStoreWithout()
 	const userinfoStore = useUserInfoStore();
 
 	if (!userinfoStore.isLogin()) {
@@ -51,16 +51,16 @@ router.beforeEach(async (to, from, next) => {
 		return;
 	}
 
-	if (permissionsStore.getIsAddRouters) {
+	if (routerStore.getIsAddRouters) {
 		next();
 		return;
 	}
 
-	await permissionsStore.initRoutes(permissionsStore.getAddRouters);
-	permissionsStore.getRouters.forEach((route: RouteRecordRaw) => {
+	await routerStore.initRoutes();
+	routerStore.getRouters.forEach((route: RouteRecordRaw) => {
 		router.addRoute(route);
 	});
-	permissionsStore.setIsAddRouters(true);
+	routerStore.setIsAddRouters(true);
 
 	const redirectPath = from.query.redirect || to.path;
 	const redirect = decodeURIComponent(redirectPath as string);
@@ -69,4 +69,5 @@ router.beforeEach(async (to, from, next) => {
 	next(nextData);
 });
 
+// noinspection JSUnusedGlobalSymbols
 export default router;

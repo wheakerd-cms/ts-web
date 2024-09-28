@@ -1,24 +1,46 @@
 {
+	"extends": [
+		"@tsconfig/node20/tsconfig.json",
+		"@vue/tsconfig/tsconfig.dom.json"
+	],
+	"include": [
+		"vite.config.*",
+		"vitest.config.*",
+		"cypress.config.*",
+		"nightwatch.conf.*",
+		"playwright.config.*",
+		"env.d.ts",
+		"src/**/*",
+		"src/**/*.vue",
+		"src/**/*.tsx"
+	],
+	"exclude": [
+		"src/**/__tests__/*"
+	],
 	"compilerOptions": {
+		"composite": true,
+		"noEmit": true,
+		"strict": true,
+		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
 		"target": "esnext",
 		"module": "ESNext",
 		"moduleResolution": "node",
-		"types": [
-			"node"
-		],
+		"jsx": "preserve",
 		"lib": [
 			"ES2023",
-			"DOM"
+			"DOM",
+			"ESNext"
 		],
-		"strict": true
-	},
-	"files": [],
-	"references": [
-		{
-			"path": "./tsconfig.node.json"
-		},
-		{
-			"path": "./tsconfig.app.json"
+		"types": [
+			"node",
+			"vue"
+		],
+		"baseUrl": "./",
+		"paths": {
+			"@/*": [
+				"src/*"
+			]
 		}
-	]
+	},
+	"files": []
 }
