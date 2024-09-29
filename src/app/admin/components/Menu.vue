@@ -16,18 +16,15 @@ import {
 
 export default defineComponent({
     name: "MenuComponent",
-    computed: {
-    },
+    computed: {},
     props: {
         className: {},
     },
     setup(props, {slots}) {
-        const handleOpen = (key: string, keyPath: string[]) => {
-            console.log(key, keyPath);
+        const handleOpen = () => {
         };
 
-        const handleClose = (key: string, keyPath: string[]) => {
-            console.log(key, keyPath)
+        const handleClose = () => {
         };
 
         return () => (
