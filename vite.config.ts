@@ -8,7 +8,7 @@ import * as path from "node:path";
 
 // EN: https://vitejs.dev/config/
 // CN: https://cn.vitejs.dev/config/
-export default defineConfig(({mode}: { mode: string }) => {
+export default defineConfig(({mode}) => {
 	const ENV: Record<string, string> = loadEnv(mode, process.cwd());
 	return {
 		server: {
@@ -26,13 +26,41 @@ export default defineConfig(({mode}: { mode: string }) => {
 		],
 		build: {
 			target: 'esnext',
+			outDir: 'dist',	// 输出目录
+			cssCodeSplit: true,
+			sourcemap: true,
+			// terserOptions: {
+			// 	compress: {
+			// 		drop_console: true,	// 删除 console.log
+			// 		dead_code: true,	// 删除死代码
+			// 	},
+			// 	// 混淆变量名
+			// 	mangle: true,
+			// 	output: {
+			// 		// 删除注释
+			// 		comments: false,
+			// 	},
+			// },
 			rollupOptions: {
-				input: {
-					main: path.resolve(__dirname, 'src/main.ts'),
-					styles: path.resolve(__dirname, 'src/assets/main.scss'),
+				input: path.resolve(__dirname, 'index.html'),
+				output: {
+					// 设置文件名格式
+					assetFileNames: 'assets/[ext]/[name].[hash][extname]',
+					entryFileNames: 'vendor/[name].[hash].js',
+					chunkFileNames: 'chunks/[name].[hash].js',
+					//	切片逻辑
+					manualChunks: {
+						'vue-chunks': [
+							'vue',
+							'vue-router',
+							'pinia',
+						],
+						'element-plus': [
+							'element-plus',
+						],
+					},
 				},
 			},
-			output: 'dist',
 		},
 		resolve: {
 			extensions: ['.ts', '.tsx', '.scss', '.css'],

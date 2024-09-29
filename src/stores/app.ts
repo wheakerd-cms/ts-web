@@ -12,6 +12,11 @@ interface StateInterface {
 	defaultRoute: { [key: string]: any },
 }
 
+const {
+	hasRouterModule,
+	getRouterModule,
+} = routerModules();
+
 export const useAppStore = defineStore('base.app', {
 	state: (): StateInterface => ({
 		mode: import.meta.env.VITE_ROUTER_MODE,
@@ -58,10 +63,11 @@ export const useAppStore = defineStore('base.app', {
 		async getRouter(): Promise<Router> {
 			const app: string | undefined = this.getAppName;
 
-			const {
-				hasRouterModule,
-				getRouterModule,
-			} = routerModules();
+			console.log(app)
+			console.log(!!app && hasRouterModule(app))
+			console.log(
+				await getRouterModule(app as unknown as string)
+			)
 
 			return !!app && hasRouterModule(app) ? await getRouterModule(app) : this.getDefaultRoute;
 		},

@@ -13,14 +13,6 @@ interface StateInterface {
 	isAddRoutes: boolean;
 }
 
-const {
-	getAppName,
-} = useAppStoreWithout();
-
-const {
-	generateRoutes,
-} = viewModules();
-
 export const useRouterStore = defineStore('base.router', {
 	state: (): StateInterface => ({
 		addRoutes: [] as RouteRecordRaw [],
@@ -44,7 +36,7 @@ export const useRouterStore = defineStore('base.router', {
 				this.setAddRouters(routes);
 			}
 			return new Promise<void>(async (resolve): Promise<void> => {
-				const routers: RouteRecordRaw [] = generateRoutes(
+				const routers: RouteRecordRaw [] = viewModules().generateRoutes(
 					this.getAddRouters,
 				);
 				this.routes = cloneDeep(this.getAddRouters).concat(routers) as RouteRecordRaw [];
@@ -65,7 +57,7 @@ export const useRouterStore = defineStore('base.router', {
 		},
 	},
 	persist: {
-		key: `base.router.${getAppName}`,
+		key: `base.router.${useAppStoreWithout().getAppName}`,
 		pick: [
 			'addRoutes',
 			'routes',
@@ -75,8 +67,4 @@ export const useRouterStore = defineStore('base.router', {
 
 export const useRouterStoreWithout = () => {
 	return useRouterStore(pinia);
-};
-
-export {
-	getAppName,
 };

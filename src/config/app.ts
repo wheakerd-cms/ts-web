@@ -17,7 +17,7 @@ interface AppConfigInterface {
 }
 
 const appConfig: AppConfigInterface = {
-	defaultApp: 'index',
+	defaultApp: 'admin',
 	app: {
 		admin: {
 			base: '/admin',

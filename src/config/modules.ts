@@ -3,6 +3,10 @@ import type {Router, RouteRecordRaw} from "vue-router";
 import type {ReturnTypeRouter} from "@/config/types";
 import {useAppStore} from "@/stores/app";
 
+console.log(
+	import.meta.glob(`/src/app/**/router/*.ts`)
+)
+
 const modules = () => {
 	const routerModules: Record<string, ReturnTypeRouter<unknown>> =
 		import.meta.glob(`/src/app/**/router/*.ts`);
@@ -112,6 +116,22 @@ const routerModules = () => {
 		if (!hasRouterModule(app)) {
 			throw new Error(`Router not found for path: ${getRouterPath(app)}`);
 		}
+
+		console.log(
+			getRouterPath(app)
+		)
+
+		console.log(
+			routerModules [getRouterPath(app)]
+		)
+
+		console.log(
+			routerModules [getRouterPath(app)]()
+		)
+
+		console.log(
+			await routerModules [getRouterPath(app)]()
+		)
 
 		const routerModule: {
 			default: Router;
