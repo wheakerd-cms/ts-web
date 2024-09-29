@@ -32,3 +32,8 @@ $themeMap: ();
 :root, [data-bs-theme="light"] {
 	@include theme(map-get($theme-colors, 'light'));
 }
+
+.flex-column{
+	flex-direction: column
+}
+

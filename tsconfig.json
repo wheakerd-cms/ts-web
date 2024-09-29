@@ -33,7 +33,8 @@
 		],
 		"types": [
 			"node",
-			"vue"
+			"vue",
+			"element-plus/global"
 		],
 		"baseUrl": "./",
 		"paths": {

@@ -62,6 +62,7 @@ export const useAppStore = defineStore('base.app', {
 		},
 		async getRouter(): Promise<Router> {
 			const app: string | undefined = this.getAppName;
+			console.log(app);
 
 			return !!app && hasRouterModule(app) ? await getRouterModule(app) : this.getDefaultRoute;
 		},

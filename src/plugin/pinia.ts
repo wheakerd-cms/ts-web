@@ -6,7 +6,7 @@ const pinia = createPinia();
 
 pinia.use(PiniaPersistedState);
 
-export const registryStore = (app: App<Element>): void => {
+export const registryPinia = (app: App<Element>): void => {
 	app.use(pinia);
 };
 

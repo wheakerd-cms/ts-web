@@ -1,10 +1,14 @@
 import {fileURLToPath, URL} from 'node:url';
 
 import {defineConfig, loadEnv} from 'vite';
-import vue from '@vitejs/plugin-vue';
+import Vue from '@vitejs/plugin-vue';
+import Components from "unplugin-vue-components/vite";
+import AutoImport from "unplugin-auto-import/vite";
 import VueJsx from '@vitejs/plugin-vue-jsx';
 import vueDevTools from 'vite-plugin-vue-devtools';
+import progress from "vite-plugin-progress";
 import * as path from "node:path";
+import {ElementPlusResolver} from "unplugin-vue-components/resolvers";
 
 // EN: https://vitejs.dev/config/
 // CN: https://cn.vitejs.dev/config/
@@ -20,35 +24,65 @@ export default defineConfig(({mode}) => {
 			__ROUTER_MODE__: ENV.ViTE_ROUTER_MODE === void 0 ? "'host'" : JSON.stringify(ENV.ViTE_ROUTER_MODE),
 		},
 		plugins: [
-			vue(),
+			Vue({
+				script: {
+					// 开启defineModel
+					defineModel: true
+				},
+			}),
+			AutoImport({
+				resolvers: [ElementPlusResolver()],
+				imports: [
+					'vue',
+					'vue-router',
+					'pinia', // 如果需要使用 Pinia
+				],
+			}),
+			Components({
+				resolvers: [
+					ElementPlusResolver(),
+				],
+			}),
 			VueJsx(),
 			vueDevTools(),
+			progress(),
 		],
+		css: {
+			preprocessorOptions: {
+				sass: {
+					additionalData: `@import "~@/assets/main.scss";`,
+					javascriptEnabled: true,
+				},
+			},
+		},
+		resolve: {
+			extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.scss', '.css'],
+			alias: {
+				'@': fileURLToPath(
+					new URL('./src', import.meta.url)
+				),
+			},
+		},
+		esbuild: {
+			pure: [
+				'console.log',
+			],
+			drop: [
+				'debugger',
+			],
+		},
 		build: {
-			target: 'esnext',
-			outDir: 'dist',	// 输出目录
+			target: 'ES2023',
+			outDir: 'dist',
 			cssCodeSplit: true,
 			sourcemap: true,
-			// terserOptions: {
-			// 	compress: {
-			// 		drop_console: true,	// 删除 console.log
-			// 		dead_code: true,	// 删除死代码
-			// 	},
-			// 	// 混淆变量名
-			// 	mangle: true,
-			// 	output: {
-			// 		// 删除注释
-			// 		comments: false,
-			// 	},
-			// },
 			rollupOptions: {
 				input: path.resolve(__dirname, 'index.html'),
 				output: {
-					// 设置文件名格式
+					format: 'es',
 					assetFileNames: 'assets/[ext]/[name].[hash][extname]',
 					entryFileNames: 'vendor/[name].[hash].js',
 					chunkFileNames: 'chunks/[name].[hash].js',
-					//	切片逻辑
 					manualChunks: {
 						'vue-chunks': [
 							'vue',
@@ -62,13 +96,14 @@ export default defineConfig(({mode}) => {
 				},
 			},
 		},
-		resolve: {
-			extensions: ['.ts', '.tsx', '.scss', '.css'],
-			alias: {
-				'@': fileURLToPath(
-					new URL('./src', import.meta.url)
-				),
-			},
+		optimizeDeps: {
+			include: [
+				'vue',
+				'vue-router',
+				'vue-types',
+				'@vueuse/core',
+				'axios',
+			],
 		},
 	};
 });
