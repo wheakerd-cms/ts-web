@@ -4,7 +4,7 @@ import {defineRoutes} from "@/app/admin/stores/permissionStore";
 import type {RouteRecordRaw} from "vue-router";
 import router from "@/router";
 import {useUserInfoStore} from "@/app/admin/stores/userinfoStore";
-import {useRouterStoreWithout} from "@/stores/router";
+import {useRouterStoreWithout} from "@/app/admin/stores/routerStore";
 
 const routerStore = useRouterStoreWithout();
 const userInfoStore = useUserInfoStore();

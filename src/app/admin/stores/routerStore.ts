@@ -3,9 +3,9 @@
 import {type RouteRecordRaw,} from "vue-router";
 import {defineStore} from "pinia";
 import {cloneDeep} from "lodash";
-import {viewModules} from "@/config/modules";
+import {generateRoutes} from "@/modules/viewReader";
 import {pinia} from "@/plugin/pinia";
-import {useAppStoreWithout} from "@/stores/app";
+import {getAppName, getLayoutView} from "@/modules/appReader";
 
 interface StateInterface {
 	addRoutes: RouteRecordRaw [];
@@ -36,8 +36,9 @@ export const useRouterStore = defineStore('base.router', {
 				this.setAddRouters(routes);
 			}
 			return new Promise<void>(async (resolve): Promise<void> => {
-				const routers: RouteRecordRaw [] = viewModules().generateRoutes(
+				const routers: RouteRecordRaw [] = generateRoutes(
 					this.getAddRouters,
+					getLayoutView(),
 				);
 				this.routes = cloneDeep(this.getAddRouters).concat(routers) as RouteRecordRaw [];
 				resolve();
@@ -57,7 +58,8 @@ export const useRouterStore = defineStore('base.router', {
 		},
 	},
 	persist: {
-		key: `base.router.${useAppStoreWithout().getAppName}`,
+		key: `base.router.${getAppName()}`,
+		// key: `base.router.admin`,
 		pick: [
 			'addRoutes',
 			'routes',

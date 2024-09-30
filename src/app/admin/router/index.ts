@@ -1,6 +1,6 @@
 import {createRouter, createWebHistory, type Router, type RouteRecordRaw} from "vue-router";
 import {useUserInfoStore} from "@/app/admin/stores/userinfoStore";
-import {useRouterStoreWithout} from "@/stores/router";
+import {useRouterStoreWithout} from "@/app/admin/stores/routerStore";
 
 const NO_REDIRECT_WHITE_LIST: string [] = [
 	'/login',

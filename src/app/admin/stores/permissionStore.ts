@@ -1,3 +1,4 @@
+
 export const defineRoutes: { [key: string]: any }[] = [
 	{
 		path: '/dashboard',

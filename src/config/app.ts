@@ -1,27 +1,11 @@
-import type {ReturnTypeRouter} from "@/config/types";
+import type {InterfaceConfigApp} from "@/config/types";
 
-interface AppConfigInterface {
-	defaultApp: string,
-	app: {
-		[key: string]: {
-			base: string,
-			layout?: ReturnTypeRouter<any>,
-			pathMatch: {
-				path: string,
-				name: string,
-				redirect: string,
-			},
-		},
-	},
-	pages: { [key: string | number]: any },
-}
-
-const appConfig: AppConfigInterface = {
+export const appConfig: InterfaceConfigApp = {
 	defaultApp: 'admin',
 	app: {
 		admin: {
 			base: '/admin',
-			layout: () => import(`@/app/admin/views/LayoutView.vue`),
+			layout: `app/admin/views/LayoutView`,
 			pathMatch: {
 				path: '/:pathMatch(.*)*',
 				name: 'NotFound',
@@ -33,5 +17,3 @@ const appConfig: AppConfigInterface = {
 		404: '@/views/404.vue',
 	},
 };
-
-export default appConfig;
