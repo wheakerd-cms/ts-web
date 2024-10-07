@@ -63,7 +63,7 @@ router.beforeEach(async (to, from, next) => {
 	routerStore.setIsAddRouters(true);
 
 	const redirectPath = from.query.redirect || to.path;
-	const redirect = decodeURIComponent(redirectPath as string);
+	const redirect: string = decodeURIComponent(redirectPath as string);
 	const nextData = redirect && to.path !== redirect ? {...to, replace: true} : {path: redirect};
 
 	next(nextData);

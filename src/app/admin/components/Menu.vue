@@ -37,9 +37,6 @@ export default defineComponent({
                         onOpen={handleOpen}
                         onClose={handleClose}
                 >
-                    {
-                        slots.title ? <ElMenuItem>{slots.title?.()}</ElMenuItem> : null
-                    }
                     <ElSubMenu index="1" v-slots={{
                         title: () => {
                             return (<>
@@ -64,6 +61,91 @@ export default defineComponent({
                         </ElSubMenu>
                     </ElSubMenu>
                     <ElMenuItem index="2">
+                        <ElIcon>
+                            <Menu/>
+                        </ElIcon>
+                        <span>Navigator Two</span>
+                    </ElMenuItem>
+                    <ElMenuItem index="3" disabled>
+                        <ElIcon>
+                            <Document/>
+                        </ElIcon>
+                        <span>Navigator Three</span>
+                    </ElMenuItem>
+                    <ElMenuItem index="4">
+                        <ElIcon>
+                            <Setting/>
+                        </ElIcon>
+                        <span>Navigator Four</span>
+                    </ElMenuItem><ElMenuItem index="2">
+                        <ElIcon>
+                            <Menu/>
+                        </ElIcon>
+                        <span>Navigator Two</span>
+                    </ElMenuItem>
+                    <ElMenuItem index="3" disabled>
+                        <ElIcon>
+                            <Document/>
+                        </ElIcon>
+                        <span>Navigator Three</span>
+                    </ElMenuItem>
+                    <ElMenuItem index="4">
+                        <ElIcon>
+                            <Setting/>
+                        </ElIcon>
+                        <span>Navigator Four</span>
+                    </ElMenuItem><ElMenuItem index="2">
+                        <ElIcon>
+                            <Menu/>
+                        </ElIcon>
+                        <span>Navigator Two</span>
+                    </ElMenuItem>
+                    <ElMenuItem index="3" disabled>
+                        <ElIcon>
+                            <Document/>
+                        </ElIcon>
+                        <span>Navigator Three</span>
+                    </ElMenuItem>
+                    <ElMenuItem index="4">
+                        <ElIcon>
+                            <Setting/>
+                        </ElIcon>
+                        <span>Navigator Four</span>
+                    </ElMenuItem><ElMenuItem index="2">
+                        <ElIcon>
+                            <Menu/>
+                        </ElIcon>
+                        <span>Navigator Two</span>
+                    </ElMenuItem>
+                    <ElMenuItem index="3" disabled>
+                        <ElIcon>
+                            <Document/>
+                        </ElIcon>
+                        <span>Navigator Three</span>
+                    </ElMenuItem>
+                    <ElMenuItem index="4">
+                        <ElIcon>
+                            <Setting/>
+                        </ElIcon>
+                        <span>Navigator Four</span>
+                    </ElMenuItem><ElMenuItem index="2">
+                        <ElIcon>
+                            <Menu/>
+                        </ElIcon>
+                        <span>Navigator Two</span>
+                    </ElMenuItem>
+                    <ElMenuItem index="3" disabled>
+                        <ElIcon>
+                            <Document/>
+                        </ElIcon>
+                        <span>Navigator Three</span>
+                    </ElMenuItem>
+                    <ElMenuItem index="4">
+                        <ElIcon>
+                            <Setting/>
+                        </ElIcon>
+                        <span>Navigator Four</span>
+                    </ElMenuItem><ElMenuItem index="2">
                         <ElIcon>
                             <Menu/>
                         </ElIcon>
