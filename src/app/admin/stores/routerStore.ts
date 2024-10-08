@@ -5,7 +5,7 @@ import {defineStore} from "pinia";
 import {cloneDeep} from "lodash";
 import {generateRoutes} from "@/modules/viewReader";
 import {pinia} from "@/plugin/pinia";
-import {getAppName, getLayoutView} from "@/modules/appReader";
+import {getLayoutView} from "@/modules/appReader";
 
 interface StateInterface {
 	addRoutes: RouteRecordRaw [];
@@ -31,6 +31,24 @@ export const useRouterStore = defineStore('base.router', {
 		},
 	},
 	actions: {
+		generateRoutes() {
+			return new Promise<void>(async (resolve): Promise<void> => {
+
+				const addRouters = this.getAddRouters.concat([
+					{
+						path: '/:path(.*)*',
+						redirect: '/404',
+						name: 'NotFound',
+					},
+				] as unknown as RouteRecordRaw []);
+
+				this.routes = generateRoutes(
+					addRouters,
+					getLayoutView(),
+				);
+				resolve();
+			});
+		},
 		initRoutes(routes?: RouteRecordRaw []): Promise<unknown> {
 			if (!!routes) {
 				this.setAddRouters(routes);
@@ -45,24 +63,16 @@ export const useRouterStore = defineStore('base.router', {
 			});
 		},
 		setAddRouters(routes: RouteRecordRaw []): void {
-			this.addRoutes = routes.concat([
-				{
-					path: '/:path(.*)*',
-					redirect: '/404',
-					name: 'NotFound',
-				},
-			] as unknown as RouteRecordRaw []);
+			this.addRoutes = routes;
 		},
 		setIsAddRouters(value: boolean): void {
 			this.isAddRoutes = value;
 		},
 	},
 	persist: {
-		key: `base.router.${getAppName()}`,
-		// key: `base.router.admin`,
+		key: `admin.router`,
 		pick: [
 			'addRoutes',
-			'routes',
 		],
 	},
 });

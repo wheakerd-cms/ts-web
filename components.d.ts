@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ErrorPageTypewriter: typeof import('./src/components/errorPage/ErrorPageTypewriter.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

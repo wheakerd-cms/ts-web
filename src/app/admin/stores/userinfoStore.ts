@@ -11,7 +11,7 @@ export const useUserInfoStore = defineStore('admin.userinfo', {
 	state: (): UserInfoStoreInterface => ({
 		authorizationKey: 'Authorization',
 		authorization: null,
-		tokenKey: 'token',
+		tokenKey: 'Token',
 		token: null,
 	}),
 	getters: {

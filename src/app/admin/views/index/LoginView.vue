@@ -25,8 +25,8 @@ const onSubmit = async () => {
 	userInfoStore.setAuthorization('authorization');
 	userInfoStore.setToken('token');
 
-	await routerStore.initRoutes(defineRoutes as RouteRecordRaw []);
-
+	routerStore.setAddRouters(defineRoutes as RouteRecordRaw []);
+	await routerStore.generateRoutes();
 	routerStore.getRouters.forEach((route: RouteRecordRaw) => {
 		router.addRoute(route);
 	});

@@ -56,7 +56,7 @@ router.beforeEach(async (to, from, next) => {
 		return;
 	}
 
-	await routerStore.initRoutes();
+	await routerStore.generateRoutes();
 	routerStore.getRouters.forEach((route: RouteRecordRaw) => {
 		router.addRoute(route);
 	});

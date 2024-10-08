@@ -1,100 +1,83 @@
-<script lang="tsx">
-import {defineComponent} from "vue";
+<script setup lang="tsx">
 import {
 	ElMenu,
 	ElSubMenu,
-	ElMenuItemGroup,
 	ElMenuItem,
-	ElIcon,
 } from "element-plus";
-import {
-	Menu,
-	Document,
-	Location,
-	Setting,
-} from "@element-plus/icons-vue";
+import type {RouteRecordRaw} from "vue-router";
 
-export default defineComponent({
-	name: "MenuComponent",
-	computed: {},
-	props: {
-		className: {},
-		backgroundColor: '',
-	},
-	setup(props) {
-		console.log(props)
-		const handleOpen = () => {
-		};
-
-		const handleClose = () => {
-		};
-
-		return () => (
-			<>
-				<ElMenu active-text-color="#ffd04b"
-						background-color="#545c64"
-						class={`el-menu-vertical-demo ${props.className}`}
-						style={`${props.style}`}
-						default-active="2"
-						text-color="#fff"
-						onOpen={handleOpen}
-						onClose={handleClose}
-				>
-					<ElSubMenu index="1" v-slots={{
-						title: () => {
-							return (<>
-								<ElIcon>
-									<Location/>
-								</ElIcon>
-								<span>Navigator One</span>
-							</>);
-						},
-					}}>
-						<ElMenuItemGroup title="Group One">
-							<ElMenuItem index="1-1">item one</ElMenuItem>
-							<ElMenuItem index="1-2">item two</ElMenuItem>
-						</ElMenuItemGroup>
-						<ElMenuItemGroup title="Group Two">
-							<ElMenuItem index="1-3">item three</ElMenuItem>
-						</ElMenuItemGroup>
-						<ElSubMenu index="1-4" v-slots={{
-							title: () => 'item four',
-						}}>
-							<ElMenuItem index="1-4-1">item one</ElMenuItem>
-						</ElSubMenu>
-					</ElSubMenu>
-					<ElMenuItem index="2">
-						<ElIcon>
-							<Menu/>
-						</ElIcon>
-						<span>Navigator Two</span>
-					</ElMenuItem>
-					<ElMenuItem index="3" disabled>
-						<ElIcon>
-							<Document/>
-						</ElIcon>
-						<span>Navigator Three</span>
-					</ElMenuItem>
-					<ElMenuItem index="4">
-						<ElIcon>
-							<Setting/>
-						</ElIcon>
-						<span>Navigator Four</span>
-					</ElMenuItem>
-					<ElMenuItem index="2">
-						<ElIcon>
-							<Menu/>
-						</ElIcon>
-						<span>Navigator Two</span>
-					</ElMenuItem>
-				</ElMenu>
-			</>
-		);
-	},
+defineOptions({
+	name: "ComponentMenu",
 });
+
+const props = defineProps<{
+	className: String,
+	style: Object,
+	datasource: RouteRecordRaw[],
+}>();
+
+const renderMenuItem = (datasource: RouteRecordRaw [], index: string = '0') => (
+	<>
+		{
+			datasource.map((item: RouteRecordRaw, itemIndex: number): any => {
+				const subIndex = index.toString() + itemIndex.toString();
+				if (!!item.children) {
+					return templateRender(item.children as unknown as RouteRecordRaw [], subIndex);
+				} else {
+					return (
+						<>
+							<ElMenuItem key={subIndex} index={subIndex}>{item.name}</ElMenuItem>
+						</>
+					);
+				}
+			})
+		}
+	</>
+);
+
+const templateRender = (datasource: RouteRecordRaw [], index: string = '0') => (
+	<>
+		{
+			datasource.map((item: RouteRecordRaw, itemIndex: number): any => {
+				const childrenIndex = index.toString() + itemIndex.toString();
+				if (!!item.children) {
+					return (
+						<>
+							<ElSubMenu key={childrenIndex} index={childrenIndex} v-slots={{
+								'title': () => (
+									<>
+										<span>{item.name}</span>
+									</>
+								)
+							}}>
+								{
+									renderMenuItem(item.children as unknown as RouteRecordRaw [], childrenIndex)
+								}
+							</ElSubMenu>
+						</>
+					);
+				} else {
+					return renderMenuItem(item.children as unknown as RouteRecordRaw [], childrenIndex);
+				}
+			})
+		}
+	</>
+);
+
+const handleOpen = () => {
+};
+
+const handleClose = () => {
+};
 </script>
-<style lang="css">
-.el-menu-vertical-demo {
-	--el-menu-bg-color: #001529 !important;
-}
-</style>
+<template>
+	<ElMenu class="el-menu-vertical-demo"
+			:class="props.className"
+			:style="style"
+			default-active="2"
+			@onOpen="handleOpen"
+			@onClose="handleClose"
+	>
+		<Component :is="templateRender(props.datasource)"/>
+	</ElMenu>
+</template>
