@@ -1,38 +1,37 @@
 <script setup lang="ts">
 import {type Reactive, reactive} from "vue";
-import {defineRoutes} from "@/app/admin/stores/permissionStore";
+import {defineRoutes} from "@/app/admin/stores/routesStore";
 import type {RouteRecordRaw} from "vue-router";
 import router from "@/router";
-import {useUserInfoStore} from "@/app/admin/stores/userinfoStore";
+import {usePermissionStore} from "@/app/admin/stores/permissionStore";
 import {useRouterStoreWithout} from "@/app/admin/stores/routerStore";
+import {loginApi} from "@/app/admin/api/index";
+import type {loginApiTypes} from "@/app/admin/api/index/types";
 
 const routerStore = useRouterStoreWithout();
-const userInfoStore = useUserInfoStore();
+const userInfoStore = usePermissionStore();
 
-interface formInterface {
-	username: string | null,
-	password: string | null,
-}
-
-const form: Reactive<formInterface> = reactive({
-	username: null,
-	password: null,
+const form: Reactive<loginApiTypes> = reactive({
+	username: '',
+	password: '',
 });
 
 const onSubmit = async () => {
 
-	// login
-	userInfoStore.setAuthorization('authorization');
-	userInfoStore.setToken('token');
+	const res = await loginApi(form);
 
-	routerStore.setAddRouters(defineRoutes as RouteRecordRaw []);
-	await routerStore.generateRoutes();
-	routerStore.getRouters.forEach((route: RouteRecordRaw) => {
-		router.addRoute(route);
-	});
-	routerStore.setIsAddRouters(true);
+	if (!!res) {
+		userInfoStore.setToken('token');
 
-	await router.push('/dashboard/analysis');
+		routerStore.setAddRouters(defineRoutes as RouteRecordRaw []);
+		await routerStore.generateRoutes();
+		routerStore.getRouters.forEach((route: RouteRecordRaw) => {
+			router.addRoute(route);
+		});
+		routerStore.setIsAddRouters(true);
+
+		await router.push('/dashboard/analysis');
+	}
 };
 </script>
 

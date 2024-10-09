@@ -1,5 +1,5 @@
 import {createRouter, createWebHistory, type Router, type RouteRecordRaw} from "vue-router";
-import {useUserInfoStore} from "@/app/admin/stores/userinfoStore";
+import {usePermissionStore} from "@/app/admin/stores/permissionStore";
 import {useRouterStoreWithout} from "@/app/admin/stores/routerStore";
 
 const NO_REDIRECT_WHITE_LIST: string [] = [
@@ -35,7 +35,7 @@ baseRouter.forEach((route: { [key: string]: any }) => {
 
 router.beforeEach(async (to, from, next) => {
 	const routerStore = useRouterStoreWithout()
-	const userinfoStore = useUserInfoStore();
+	const userinfoStore = usePermissionStore();
 
 	if (!userinfoStore.isLogin()) {
 		if (NO_REDIRECT_WHITE_LIST.includes(to.path)) {

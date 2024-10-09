@@ -1,147 +1,30 @@
-export const defineRoutes: { [key: string]: any }[] = [
-	{
-		path: '/dashboard',
-		name: 'dashboard',
-		redirect: '/dashboard/analysis',
-		component: `#`,
-		meta: {},
-		children: [
-			{
-				path: 'analysis',
-				name: 'dashboard-analysis',
-				component: `app/admin/views/items/FormItem`,
-				meta: {},
-			},
-		],
+import {defineStore} from "pinia";
+
+interface UserInfoStoreInterface {
+	tokenKey: string;
+	token: string;
+}
+
+export const usePermissionStore = defineStore('admin.userinfo', {
+	state: (): UserInfoStoreInterface => ({
+		tokenKey: 'Token',
+		token: '',
+	}),
+	getters: {
+		getTokenKey(): string {
+			return this.tokenKey;
+		},
+		getToken(): string {
+			return this.token;
+		},
 	},
-	{
-		path: '/items',
-		name: 'items',
-		component: `#`,
-		meta: {},
-		children: [
-			{
-				path: 'items-1',
-				name: 'items-1',
-				component: `app/admin/views/items/FormItem`,
-				meta: {},
-			},
-			{
-				path: 'items-2',
-				name: 'items-2',
-				component: `app/admin/views/items/FormItem`,
-				meta: {},
-			},
-			{
-				path: 'items-3',
-				name: 'items-3',
-				component: `app/admin/views/items/FormItem`,
-				meta: {},
-			},
-		],
+	actions: {
+		isLogin(): boolean {
+			return !!this.token;
+		},
+		setToken(value: string): void {
+			this.token = value;
+		},
 	},
-	{
-		path: '/form-items',
-		name: 'form-items',
-		component: `app/admin/views/items/FormItem`,
-		meta: {},
-		children: [
-			{
-				path: 'form-items-1',
-				name: 'form-items-1',
-				component: `app/admin/views/items/FormItem`,
-				meta: {},
-			},
-			{
-				path: 'form-items-2',
-				name: 'form-items-2',
-				component: `app/admin/views/items/FormItem`,
-				meta: {},
-			},
-			{
-				path: 'form-items-3',
-				name: 'form-items-3',
-				component: `app/admin/views/items/FormItem`,
-				meta: {},
-			},
-		],
-	},
-	{
-		path: '/form-items1',
-		name: 'form-items1',
-		component: `app/admin/views/items/FormItem`,
-		meta: {},
-		children: [
-			{
-				path: 'form-items1-1',
-				name: 'form-items1-1',
-				component: `app/admin/views/items/FormItem`,
-				meta: {},
-			},
-			{
-				path: 'form-items1-2',
-				name: 'form-items1-2',
-				component: `app/admin/views/items/FormItem`,
-				meta: {},
-			},
-			{
-				path: 'form-items1-3',
-				name: 'form-items1-3',
-				component: `app/admin/views/items/FormItem`,
-				meta: {},
-			},
-		],
-	},
-	{
-		path: '/form-items11',
-		name: 'form-items11',
-		component: `app/admin/views/items/FormItem`,
-		meta: {},
-		children: [
-			{
-				path: 'form-items11-1',
-				name: 'form-items11-1',
-				component: `app/admin/views/items/FormItem`,
-				meta: {},
-			},
-			{
-				path: 'form-items11-2',
-				name: 'form-items11-2',
-				component: `app/admin/views/items/FormItem`,
-				meta: {},
-			},
-			{
-				path: 'form-items11-3',
-				name: 'form-items11-3',
-				component: `app/admin/views/items/FormItem`,
-				meta: {},
-			},
-		],
-	},
-	{
-		path: '/form-items112',
-		name: 'form-items112',
-		component: `app/admin/views/items/FormItem`,
-		meta: {},
-		children: [
-			{
-				path: 'form-items112-1',
-				name: 'form-items112-1',
-				component: `app/admin/views/items/FormItem`,
-				meta: {},
-			},
-			{
-				path: 'form-items112-2',
-				name: 'form-items112-2',
-				component: `app/admin/views/items/FormItem`,
-				meta: {},
-			},
-			{
-				path: 'form-items112-3',
-				name: 'form-items112-3',
-				component: `app/admin/views/items/FormItem`,
-				meta: {},
-			},
-		],
-	},
-];
+	persist: true,
+});

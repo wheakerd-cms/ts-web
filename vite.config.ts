@@ -9,6 +9,7 @@ import vueDevTools from 'vite-plugin-vue-devtools';
 import progress from "vite-plugin-progress";
 import * as path from "node:path";
 import {ElementPlusResolver} from "unplugin-vue-components/resolvers";
+import svgLoader from "vite-svg-loader";
 
 // EN: https://vitejs.dev/config/
 // CN: https://cn.vitejs.dev/config/
@@ -46,6 +47,7 @@ export default defineConfig(({mode}) => {
 			VueJsx(),
 			vueDevTools(),
 			progress(),
+			svgLoader(),
 		],
 		css: {
 			preprocessorOptions: {

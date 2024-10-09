@@ -13,7 +13,7 @@ interface StateInterface {
 	isAddRoutes: boolean;
 }
 
-export const useRouterStore = defineStore('base.router', {
+export const useRouterStore = defineStore('admin.router', {
 	state: (): StateInterface => ({
 		addRoutes: [] as RouteRecordRaw [],
 		routes: [] as RouteRecordRaw [],
