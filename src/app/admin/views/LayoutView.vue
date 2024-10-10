@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed, type ComputedRef, inject, onMounted, type Ref, ref, toRef,} from "vue";
 import ComponentMenu from "@/app/admin/components/ComponentMenu.vue";
-import logoImage from "@/assets/logo.svg";
+import logoImage from "@/assets/logo.svg?url";
 import {useRouterStoreWithout} from "@/app/admin/stores/routerStore";
 import {useAppStore} from "@/app/admin/stores/appStore";
 import router from "@/app/admin/router";
@@ -55,12 +55,7 @@ onMounted(() => {
 </script>
 <template>
 	<div class="min-vw-100 min-vh-100 overflow-hidden d-flex">
-		<nav :style="{
-			 	width: '220px',
-			 	height: '100vh',
-			 	backgroundColor: '#001529'
-			 }"
-		>
+		<nav class="min-vh-100" style="width: 220px; background-color: #001529">
 			<div :style="{
 					height: logoHeight + 'px',
 					backgroundColor: '#001529',

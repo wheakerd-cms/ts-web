@@ -1,30 +1,36 @@
 import {defineStore} from "pinia";
+import {computed, type ComputedRef, type Ref, ref} from "vue";
 
-interface UserInfoStoreInterface {
-	tokenKey: string;
-	token: string;
-}
+export const usePermissionStore = defineStore('admin.userinfo', () => {
 
-export const usePermissionStore = defineStore('admin.userinfo', {
-	state: (): UserInfoStoreInterface => ({
-		tokenKey: 'Token',
-		token: '',
-	}),
-	getters: {
-		getTokenKey(): string {
-			return this.tokenKey;
-		},
-		getToken(): string {
-			return this.token;
-		},
-	},
-	actions: {
-		isLogin(): boolean {
-			return !!this.token;
-		},
-		setToken(value: string): void {
-			this.token = value;
-		},
-	},
-	persist: true,
+    const tokenKey: string = 'token';
+    const getTokenKey: ComputedRef<string> = computed(() => tokenKey);
+
+    const token: Ref<string> = ref('');
+    const getToken: ComputedRef<string> = computed(() => token.value);
+    const setToken = (value: string): void => {
+        token.value = value;
+    };
+
+    const isLogin: ComputedRef<boolean> = computed(() => !!getToken.value);
+
+    return {
+        tokenKey,
+        token,
+
+        getTokenKey,
+        getToken,
+
+        setToken,
+
+        isLogin,
+    };
+}, {
+    persist: {
+        key: 'admin.permission',
+        pick: [
+            'tokenKey',
+            'token',
+        ],
+    },
 });

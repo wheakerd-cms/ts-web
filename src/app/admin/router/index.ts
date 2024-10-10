@@ -35,9 +35,9 @@ baseRouter.forEach((route: { [key: string]: any }) => {
 
 router.beforeEach(async (to, from, next) => {
 	const routerStore = useRouterStoreWithout()
-	const userinfoStore = usePermissionStore();
+	const permissionStore = usePermissionStore();
 
-	if (!userinfoStore.isLogin()) {
+	if (!permissionStore.isLogin) {
 		if (NO_REDIRECT_WHITE_LIST.includes(to.path)) {
 			next();
 			return;
