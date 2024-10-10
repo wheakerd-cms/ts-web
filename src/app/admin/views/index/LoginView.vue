@@ -5,7 +5,7 @@ import type {RouteRecordRaw} from "vue-router";
 import router from "@/router";
 import {useRouterStoreWithout} from "@/app/admin/stores/routerStore";
 import {loginApi} from "@/app/admin/api/index";
-import type {loginApiTypes} from "@/app/admin/api/index/types";
+import type {loginApiTypes} from "@/app/admin/api/index/type";
 import LoginBoxBg from "@/assets/admin/svgs/login-box-bg.svg?component";
 
 const routerStore = useRouterStoreWithout();

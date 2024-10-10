@@ -2,14 +2,14 @@ import {fileURLToPath, URL} from 'node:url';
 
 import {defineConfig, loadEnv} from 'vite';
 import Vue from '@vitejs/plugin-vue';
-import Components from "unplugin-vue-components/vite";
-import AutoImport from "unplugin-auto-import/vite";
 import VueJsx from '@vitejs/plugin-vue-jsx';
 import vueDevTools from 'vite-plugin-vue-devtools';
 import progress from "vite-plugin-progress";
 import * as path from "node:path";
-import {ElementPlusResolver} from "unplugin-vue-components/resolvers";
 import svgLoader from "vite-svg-loader";
+import AutoImport from "unplugin-auto-import/vite";
+import Components from "unplugin-vue-components/vite";
+import {ElementPlusResolver} from "unplugin-vue-components/resolvers";
 
 // EN: https://vitejs.dev/config/
 // CN: https://cn.vitejs.dev/config/
@@ -27,16 +27,14 @@ export default defineConfig(({mode}) => {
 		plugins: [
 			Vue({
 				script: {
-					// 开启defineModel
 					defineModel: true
 				},
 			}),
+			VueJsx(),
+			vueDevTools(),
 			AutoImport({
-				resolvers: [ElementPlusResolver()],
-				imports: [
-					'vue',
-					'vue-router',
-					'pinia', // 如果需要使用 Pinia
+				resolvers: [
+					ElementPlusResolver(),
 				],
 			}),
 			Components({
@@ -44,8 +42,6 @@ export default defineConfig(({mode}) => {
 					ElementPlusResolver(),
 				],
 			}),
-			VueJsx(),
-			vueDevTools(),
 			progress(),
 			svgLoader(),
 		],
