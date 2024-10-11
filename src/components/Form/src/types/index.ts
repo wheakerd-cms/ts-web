@@ -1,19 +1,14 @@
 import {
-	formComponents,
-	type FormComponentsKeys,
-	type FormComponentsSlots,
+	type ComponentsSlots,
 } from "@/types/components";
 
-export interface DataSourceMap extends Map<string, DataSource> {
-}
-
-export interface DataSource<T extends FormComponentsKeys = FormComponentsKeys> {
+export interface ComponentField<T> {
 	field: string;
 	label: string;
-	hidden?: boolean;
-	component: T;
-	slots: FormComponentsSlots<InstanceType<typeof formComponents[T]>>;
+	show?: boolean;
+	slots?: ComponentsSlots<T>,
 }
 
-export interface DataSourceMap extends Map<string, DataSource> {
+interface ElComponentRadioGroup extends ComponentField<"ElRadioGroup"> {
+
 }

@@ -1,7 +1,10 @@
 <script lang="tsx" setup>
 import ComponentAddAction from "@/app/admin/components/Feedback/ComponentAddAction.vue";
-import {ref} from "vue";
-import type {DataSourceMap} from "src/components/Form/src/types";
+import {computed, reactive, type Reactive, ref} from "vue";
+import type {DataSource, DataSourceMap, FormComponent} from "src/components/Form/src/types";
+import type {ComponentElement, ComponentElInput} from "@/types/components";
+
+import {getCurrentInstance} from 'vue'
 
 interface User {
 	date: string
@@ -54,17 +57,29 @@ const AddAction = () => {
 	AddActionModel.value = !AddActionModel.value;
 };
 
-const dataSource: DataSourceMap = new Map() as DataSourceMap;
-
-dataSource.set('default', {
+const username: Reactive<ComponentElement<'ElInput'>> = reactive({
 	field: 'username',
 	label: '用户名',
-	hidden: false,
-	component: "ElInput" as const,
-	slots: {
-
-	},
+	show: false,
+	form: {
+		attributes: {
+			disabled: false,
+			size: 'small',
+			showWordLimit: true,
+			autocomplete: 'off',
+		},
+		events: {
+			blur: () => {
+			},
+		},
+		slots: {
+			default: (data: any) => {
+				return (<></>);
+			},
+		},
+	}
 });
+
 // dataSource.set('form', {
 // 	field: 'username',
 // 	label: '用户名',
@@ -91,6 +106,28 @@ dataSource.set('default', {
 // 		email,
 // 	});
 // };
+
+const data = ref([
+	{
+		a: 1,
+	},
+	{
+		b: 2,
+	}
+]);
+
+const com = computed(() => data.value.filter((item) => {
+	console.log('item op');
+	return true;
+}));
+
+console.log(com);
+
+data.value.splice(0, 1);
+
+setTimeout(() => {
+	console.log(data.value, com.value);
+}, 1e3);
 
 </script>
 <template>
