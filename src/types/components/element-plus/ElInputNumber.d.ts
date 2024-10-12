@@ -134,9 +134,9 @@ interface Exposes {
 	focus: () => void;
 }
 
-export {
-	Attributes as ElInputNumberAttributes,
-	Events as ElInputNumberEvents,
-	Slots as ElInputNumberSlots,
-	Exposes as ElInputNumberTypeExposes,
+export default {
+	Attributes,
+	Events,
+	Slots,
+	Exposes,
 }

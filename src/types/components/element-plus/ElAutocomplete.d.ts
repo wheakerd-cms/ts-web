@@ -1,5 +1,3 @@
-import type {Component, CSSProperties, Ref, StyleValue} from "vue";
-
 interface Attributes {
 	/**
 	 * 选中项绑定值
@@ -167,7 +165,7 @@ interface Exposes {
 	focus: () => void;
 }
 
-export {
+export default {
 	Attributes,
 	Events,
 	Slots,

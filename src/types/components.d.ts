@@ -1,36 +1,27 @@
-// import {
-// 	ElInputTypeAttributes,
-// 	ElInputTypeEvents,
-// 	ElInputTypeExposes,
-// 	ElInputTypeSlots,
-// } from "@/types/components/element-plus/ElInputType";
-// import {
-// 	ElInputNumberAttributes,
-// 	ElInputNumberSlots,
-// 	ElInputNumberTypeExposes,
-// } from "@/types/components/element-plus/ElInputNumberType";
+import type {ElFormComponents} from "@/types/components/global";
 
-import * as ElInputType from "@/types/components/element-plus/ElInputType";
-import * as ElInputNumberType from "@/types/components/element-plus/ElInputNumberType";
+type BehaviorName = 'Attributes' | 'Slots' | 'Events' | 'Exposes';
 
+type ComponentForm<
+	T extends ElFormComponents = keyof T,
+	K extends BehaviorName
+> = ElFormComponents [T] [K];
 
-interface ComponentField<T extends string> {
-	field: string;
-	label: string;
-	show?: boolean;
-	component: T;
+export interface ComponentFormElement<T extends keyof ElFormComponents> {
+	label?: string;
+	component?: T;
+	attributes?: ComponentForm<T, 'Attributes'>;
+	slots?: ComponentForm<T, 'Slots'>;
+	events?: ComponentForm<T, 'Events'>;
+	exposes?: ComponentForm<T, 'Exposes'>;
 }
 
-const Components = {
-	ElInputType,
-	ElInputNumberType,
-} as const;
+export interface DataSourceForm<T extends keyof ElFormComponents> {
+	component?: keyof T;
+	form?: ComponentFormElement<T>;
+}
 
-interface ComponentElement<T extends Components = keyof T> {
-	show: boolean;
-	component: T;
-	attributes?: Components [T] ['Attributes'];
-	slots?: Components [T] ['Slots'];
-	events?: Components [T] ['Events'];
-	exposes?: Components [T] ['Exposes'];
+export interface DataSchemas<T extends keyof ElFormComponents = T> extends DataSourceForm<T> {
+	field: string;
+	label?: string;
 }

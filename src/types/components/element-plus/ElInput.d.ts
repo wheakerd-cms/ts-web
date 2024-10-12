@@ -7,7 +7,7 @@ interface Attributes {
 	 *  @see https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/input#input_%E7%B1%BB%E5%9E%8B
 	 *  @default text
 	 */
-	type?:
+	type:
 		| 'button'
 		| 'checkbox'
 		| 'color'
@@ -34,6 +34,7 @@ interface Attributes {
 	;
 	/**
 	 * 绑定值
+	 * @type string|number
 	 */
 	modelValue?: string | number;
 	/**
@@ -46,7 +47,8 @@ interface Attributes {
 	minlength?: string | number;
 	/**
 	 * 是否显示统计字数, 只在 type 为 'text' 或 'textarea' 的时候生效
-	 * @default false
+	 * @defaultValue true
+	 * @defaultValue false
 	 */
 	showWordLimit?: boolean;
 	/**
@@ -260,8 +262,8 @@ interface Exposes {
 }
 
 export {
-	Attributes as ElInputTypeAttributes,
-	Slots as ElInputTypeSlots,
-	Events as ElInputTypeEvents,
-	Exposes as ElInputTypeExposes,
+	Attributes,
+	Slots,
+	Events,
+	Exposes,
 }

@@ -1,155 +1,96 @@
 <script lang="tsx" setup>
-import ComponentAddAction from "@/app/admin/components/Feedback/ComponentAddAction.vue";
-import {computed, reactive, type Reactive, ref} from "vue";
-import type {DataSource, DataSourceMap, FormComponent} from "src/components/Form/src/types";
-import type {ComponentElement, ComponentElInput} from "@/types/components";
+import {reactive, ref, type Reactive, type Ref, onMounted} from "vue";
+import type {DataSchemas,} from "@/types/components";
+import ElComponentForm from "@/components/Form/src/ElComponentForm.vue";
 
-import {getCurrentInstance} from 'vue'
+const usernameRef = ref(null);
 
-interface User {
-	date: string
-	name: string
-	address: string
-}
-
-const tableRowClassName = (
-	{
-		row,
-		rowIndex,
-	}: {
-		row: User
-		rowIndex: number
-	}) => {
-	if (rowIndex === 1) {
-		return 'warning-row'
-	} else if (rowIndex === 3) {
-		return 'success-row'
-	}
-	return ''
-}
-
-const tableData: User[] = [
-	{
-		date: '2016-05-03',
-		name: 'Tom',
-		address: 'No. 189, Grove St, Los Angeles',
-	},
-	{
-		date: '2016-05-02',
-		name: 'Tom',
-		address: 'No. 189, Grove St, Los Angeles',
-	},
-	{
-		date: '2016-05-04',
-		name: 'Tom',
-		address: 'No. 189, Grove St, Los Angeles',
-	},
-	{
-		date: '2016-05-01',
-		name: 'Tom',
-		address: 'No. 189, Grove St, Los Angeles',
-	},
-];
-
-const AddActionModel = ref(false);
-
-const AddAction = () => {
-	AddActionModel.value = !AddActionModel.value;
-};
-
-const username: Reactive<ComponentElement<'ElInput'>> = reactive({
-	field: 'username',
-	label: '用户名',
-	show: false,
-	form: {
-		attributes: {
-			disabled: false,
-			size: 'small',
-			showWordLimit: true,
-			autocomplete: 'off',
-		},
-		events: {
-			blur: () => {
+const dataSchemas: Ref<{ [key: string]: DataSchemas }> = ref({
+	username: {
+		field: 'username',
+		label: '用户名',
+		form: {
+			attributes: {
+				placeholder: '测试',
+				showWordLimit: true,
+				modelValue: '66612345',
 			},
-		},
-		slots: {
-			default: (data: any) => {
-				return (<></>);
+			slots: {
+				prefix: (_: any) => {
+					return <>123</>;
+				},
 			},
-		},
+			events: {
+				focus: (event: FocusEvent): void => {
+					console.log(event, '当选择器的输入框获得焦点时触发');
+				},
+			},
+		}
+	},
+	password: {
+		field: 'username',
+		label: '密码',
+		form: {
+			attributes: {
+				type: 'number',
+				showWordLimit: true,
+			},
+			slots: {
+				default: (data: any): JSX.Element => {
+					return (<>{{data}}</>);
+				},
+			},
+			events: {
+				focus (event: FocusEvent): void  {
+					action(event);
+				},
+			},
+		}
 	}
 });
 
-// dataSource.set('form', {
-// 	field: 'username',
-// 	label: '用户名',
-// 	slots: {
-// 		default: (data: any) => {
-// 			return <>{data.name}</>;
-// 		},
-// 	},
-// });
+const action = (event: FocusEvent) => {
+	console.log('event ::::---===', event);
+	dataSchemas.value?.username?.form?.attributes?.modelValue
+	&& (dataSchemas.value.username.form.attributes.modelValue = '呢好');
+};
 
-// const formItems = () => {
-// 	const username = {
-// 		type: String,
-// 		required: true,
-// 		form: {},
-// 		table: {},
-// 	};
-// 	const password = string;
-// 	const email = string;
-//
-// 	return toRefs({
-// 		username,
-// 		password,
-// 		email,
-// 	});
-// };
-
-const data = ref([
+const dataSources = [
 	{
-		a: 1,
+		username: "username-1",
+		password: "password-1",
 	},
 	{
-		b: 2,
-	}
-]);
-
-const com = computed(() => data.value.filter((item) => {
-	console.log('item op');
-	return true;
-}));
-
-console.log(com);
-
-data.value.splice(0, 1);
+		username: "username-2",
+		password: "password-2",
+	},
+	{
+		username: "username-3",
+		password: "password-3",
+	},
+];
 
 setTimeout(() => {
-	console.log(data.value, com.value);
-}, 1e3);
+	console.log(
+		usernameRef.value
+	)
+}, 2e3);
+
+const formRef = ref(null);
+
+onMounted(() => {
+
+
+	console.log('menuView', formRef.value, formRef.value?.refs);
+
+});
 
 </script>
 <template>
-	<div class="mb-4">
-		<el-button>Plain</el-button>
-		<el-button type="primary" @click="AddAction">新增</el-button>
-		<el-button type="success">Success</el-button>
-		<el-button type="info">Info</el-button>
-		<el-button type="warning">Warning</el-button>
-		<el-button type="danger">Danger</el-button>
-	</div>
-	<el-table :data="tableData"
-			  :row-class-name="tableRowClassName"
-			  border
-			  style="width: 100%"
-	>
-		<el-table-column prop="date" label="Date" width="180"/>
-		<el-table-column prop="name" label="Name" width="180"/>
-		<el-table-column prop="address" label="Address"/>
-	</el-table>
 
-	<ComponentAddAction :model="AddActionModel"
-						:operate="'add'"
+	<ElComponentForm ref="formRef"
+					 :data-schemas="dataSchemas"
+					 :data-sources="dataSources"
 	/>
+
 </template>

@@ -12,6 +12,7 @@ declare module 'vue' {
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCheckboxGroup: typeof import('element-plus/es')['ElCheckboxGroup']
     ElCol: typeof import('element-plus/es')['ElCol']
+    ElComponentForm: typeof import('./src/components/Form/src/ElComponentForm.vue')['default']
     ElContainer: typeof import('element-plus/es')['ElContainer']
     ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
     ElDialog: typeof import('element-plus/es')['ElDialog']
@@ -36,8 +37,9 @@ declare module 'vue' {
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTimePicker: typeof import('element-plus/es')['ElTimePicker']
     ErrorPageTypewriter: typeof import('./src/components/errorPage/ErrorPageTypewriter.vue')['default']
-    FormComponents: typeof import('./src/components/Form/src/FormComponents.vue')['default']
+    FormComponents: typeof import('./src/components/Form/src/ElComponentForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Src: typeof import('./src/components/element-plus/el-input/src/index.vue')['default']
   }
 }

@@ -1,4 +1,4 @@
-import FormComponents from "@/components/Form/src/FormComponents.vue";
+import FormComponents from "@/components/Form/src/ElComponentForm.vue";
 
 export {
 	FormComponents,
