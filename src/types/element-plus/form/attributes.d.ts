@@ -11,33 +11,36 @@ import {
 	RadioGroupProps,
 	RateProps,
 	SelectProps,
-	SelectV2Props,
+	// SelectV2Props,
 	SliderProps,
 	SwitchProps,
 	TimeSelectProps,
 	TransferProps,
 	UploadProps,
 } from 'element-plus';
-import type {ExtractPropTypes} from "@vue/runtime-core";
+
+type Mutable<T> = {
+	- readonly [K in keyof T]: T[K];
+};
 
 export type ElComponentsAttributes = {
-	ElAutocomplete: Partial<AutocompleteProps>;
-	ElCascader: Partial<CascaderProps>;
-	ElCheckboxGroup: Partial<CheckboxGroupProps>;
-	ElColorPicker: Partial<ColorPickerProps>;
-	ElDatePicker: Partial<DatePickerProps>;
-	ElDivider: Partial<DividerProps>;
-	ElInput: Partial<InputProps>;
-	ElInputNumber: Partial<InputNumberProps>;
-	ElRadioButton: Partial<RadioButtonProps>;
-	ElRadioGroup: Partial<RadioGroupProps>;
-	ElRate: Partial<RateProps>;
-	ElSelect: Partial<SelectProps>;
-	ElSelectV2: Partial<SelectV2Props>;
-	ElSlider: Partial<SliderProps>;
-	ElSwitch: Partial<SwitchProps>;
-	ElTimeSelect: Partial<TimeSelectProps>;
-	ElTransfer: Partial<TransferProps>;
-	ElTreeSelect: Partial<SelectProps>;
-	ElUpload: Partial<UploadProps>;
+	ElAutocomplete: Mutable<Partial<AutocompleteProps>>;
+	ElCascader: Mutable<Partial<CascaderProps>>;
+	ElCheckboxGroup: Mutable<Partial<CheckboxGroupProps>>;
+	ElColorPicker: Mutable<Partial<ColorPickerProps>>;
+	ElDatePicker: Mutable<Partial<DatePickerProps>>;
+	ElDivider: Mutable<Partial<DividerProps>>;
+	ElInput: Mutable<Partial<InputProps>>;
+	ElInputNumber: Mutable<Partial<InputNumberProps>>;
+	ElRadioButton: Mutable<Partial<RadioButtonProps>>;
+	ElRadioGroup: Mutable<Partial<RadioGroupProps>>;
+	ElRate: Mutable<Partial<RateProps>>;
+	ElSelect: Mutable<Partial<SelectProps>>;
+	// Mutable<ElSelectV2: Partial<SelectV2Props>;>
+	ElSlider: Mutable<Partial<SliderProps>>;
+	ElSwitch: Mutable<Partial<SwitchProps>>;
+	ElTimeSelect: Mutable<Partial<TimeSelectProps>>;
+	ElTransfer: Mutable<Partial<TransferProps>>;
+	ElTreeSelect: Mutable<Partial<SelectProps>>;
+	ElUpload: Mutable<Partial<UploadProps>>;
 }

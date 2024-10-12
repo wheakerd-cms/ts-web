@@ -2,9 +2,11 @@
 import {onMounted, ref, reactive} from "vue";
 import {
 	ElForm,
+	ElRow,
+	ElCol,
 	ElFormItem,
 } from "element-plus";
-import {ElInput} from "@/components/element-plus/el-input";
+import ElInput from '@/components/element-plus/el-input';
 import type {ComponentFormElement, DataSchemasSources,} from "@/types/components";
 import type {ElComponentsNames} from "@/types/element-plus/form";
 
@@ -14,7 +16,7 @@ defineOptions({
 
 const props = defineProps<{
 	dataSchemas: { [key: string]: DataSchemasSources };
-	dataSources: [];
+	dataSources: any [];
 }>();
 
 const {
@@ -31,39 +33,44 @@ const FormReader = () => (
 				model={dataSources}
 				labelWidth={'auto'}
 				style={{
-					'max-width': '600px',
+					'width': '600px',
 				}}
 		>
-			{
-				Object.entries(dataSchemas).map(([key, item]: [string, DataSchemasSources]) => {
+			<ElRow>
+				{
+					Object.entries(dataSchemas).map(([key, item]: [string, DataSchemasSources]) => {
 
-					const field: string = item.field;
-					const form: ComponentFormElement<ElComponentsNames> | undefined = item.form;
+						const field: string = item.field;
+						const form: ComponentFormElement<ElComponentsNames> | undefined = item.form;
 
-					if (!!form) {
-						const label: string = !!item?.label ? item.label : !!form?.label ? form.label : key;
+						if (!!form) {
+							const label: string = !!item?.label ? item.label : !!form?.label ? form.label : key;
 
-						const formData = {
-							...form,
-							field: field,
-						};
+							const formData = {
+								...form,
+								field: field,
+							} as ComponentFormElement<'ElInput'> & { field: string };
 
-						const component: ElComponentsNames | undefined = form?.component;
-						const componentName = !!component ? component : 'ElInput';
-						refs [key] = ref(null);
+							const component: ElComponentsNames | undefined = form?.component;
+							const componentName = !!component ? component : 'ElInput';
+							const span = !!form?.col ? form.col : 24;
+							refs [key] = ref(null);
 
-						switch (componentName) {
-							default:
-								return <ElFormItem label={label}
-												   prop={field}
-								>
-									<ElInput ref={refs [key]} {...formData}/>
-								</ElFormItem>;
+							switch (componentName) {
+								default:
+									return <ElCol span={span}>
+										<ElFormItem label={label}
+													prop={field}
+										>
+											<ElInput ref={refs [key]} {...formData}/>
+										</ElFormItem>
+									</ElCol>;
+							}
 						}
-					}
 
-				})
-			}
+					})
+				}
+			</ElRow>
 		</ElForm>
 	</>
 );

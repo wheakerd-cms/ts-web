@@ -5,6 +5,7 @@ import type {ElComponentsSlots} from "@/types/element-plus/form/slots";
 
 export interface ComponentFormElement<T extends ElComponentsNames> {
 	label?: string;
+	col?: number;
 	component?: T;
 	attributes?: ElComponentsAttributes [T];
 	slots?: ElComponentsSlots [T];

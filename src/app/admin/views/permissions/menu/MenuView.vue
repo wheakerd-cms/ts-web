@@ -17,18 +17,13 @@ const dataSchemas: Reactive<{
 			attributes: {
 				placeholder: '测试',
 				showWordLimit: true,
-				modelValue: ''
+				modelValue: '112',
 			},
-			slots: {
-				prefix(_): JSX.Element {
-					return (<>123</>);
-				},
-			},
+			slots: {},
 			events: {
-				focus: (event: FocusEvent): void => {
-					console.log(event, '当选择器的输入框获得焦点时触发');
+				blur(...args) {
 				},
-			},
+			}
 		}
 	},
 	password: {
@@ -38,6 +33,7 @@ const dataSchemas: Reactive<{
 			attributes: {
 				type: 'number',
 				showWordLimit: true,
+				modelValue: '',
 			},
 			slots: {
 				default: (data: any): JSX.Element => {
@@ -55,8 +51,9 @@ const dataSchemas: Reactive<{
 
 const action = (event: FocusEvent) => {
 	console.log('event ::::---===', event);
-	dataSchemas.value?.username?.form?.attributes?.modelValue
-	&& (dataSchemas.value.username.form.attributes.modelValue = '呢好');
+	if (dataSchemas?.username?.form?.attributes?.modelValue) {
+		(dataSchemas.username.form.attributes.modelValue as string) = '呢好';
+	}
 };
 
 const dataSources = [
