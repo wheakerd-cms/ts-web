@@ -1,23 +1,27 @@
 <script lang="tsx" setup>
-import {reactive, ref, type Reactive, type Ref, onMounted} from "vue";
-import type {DataSchemas,} from "@/types/components";
+import {ref, onMounted, type Reactive, reactive} from "vue";
+import type {DataSchemasFrom} from "@/types/components";
 import ElComponentForm from "@/components/Form/src/ElComponentForm.vue";
 
 const usernameRef = ref(null);
 
-const dataSchemas: Ref<{ [key: string]: DataSchemas }> = ref({
+
+const dataSchemas: Reactive<{
+	username: DataSchemasFrom<'ElInput'>;
+}> = reactive({
 	username: {
 		field: 'username',
 		label: '用户名',
 		form: {
+			component: 'ElInput',
 			attributes: {
 				placeholder: '测试',
 				showWordLimit: true,
-				modelValue: '66612345',
+				modelValue: ''
 			},
 			slots: {
-				prefix: (_: any) => {
-					return <>123</>;
+				prefix(_): JSX.Element {
+					return (<>123</>);
 				},
 			},
 			events: {
@@ -41,7 +45,7 @@ const dataSchemas: Ref<{ [key: string]: DataSchemas }> = ref({
 				},
 			},
 			events: {
-				focus (event: FocusEvent): void  {
+				focus(event: FocusEvent): void {
 					action(event);
 				},
 			},

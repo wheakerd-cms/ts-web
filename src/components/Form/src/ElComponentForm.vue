@@ -5,15 +5,15 @@ import {
 	ElFormItem,
 } from "element-plus";
 import {ElInput} from "@/components/element-plus/el-input";
-import type {ComponentFormElement, DataSchemas,} from "@/types/components";
-import type {ElFormComponents} from "@/types/components/global";
+import type {ComponentFormElement, DataSchemasSources,} from "@/types/components";
+import type {ElComponentsNames} from "@/types/element-plus/form";
 
 defineOptions({
 	name: "ElComponentForm",
 });
 
 const props = defineProps<{
-	dataSchemas: DataSchemas<'ElInput'>;
+	dataSchemas: { [key: string]: DataSchemasSources };
 	dataSources: [];
 }>();
 
@@ -35,10 +35,10 @@ const FormReader = () => (
 				}}
 		>
 			{
-				Object.entries(dataSchemas).map(([key, item]: [string, DataSchemas<'ElInput'>]) => {
+				Object.entries(dataSchemas).map(([key, item]: [string, DataSchemasSources]) => {
 
 					const field: string = item.field;
-					const form: ComponentFormElement<'ElInput'> | undefined = item.form;
+					const form: ComponentFormElement<ElComponentsNames> | undefined = item.form;
 
 					if (!!form) {
 						const label: string = !!item?.label ? item.label : !!form?.label ? form.label : key;
@@ -48,7 +48,7 @@ const FormReader = () => (
 							field: field,
 						};
 
-						const component: keyof ElFormComponents | undefined = form?.component;
+						const component: ElComponentsNames | undefined = form?.component;
 						const componentName = !!component ? component : 'ElInput';
 						refs [key] = ref(null);
 

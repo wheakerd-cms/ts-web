@@ -1,27 +1,24 @@
-import type {ElFormComponents} from "@/types/components/global";
+import type {ElComponentsNames} from "@/types/element-plus/form";
+import type {ElComponentsAttributes} from "@/types/element-plus/form/attributes";
+import type {ElComponentsEvents} from "@/types/element-plus/form/events";
+import type {ElComponentsSlots} from "@/types/element-plus/form/slots";
 
-type BehaviorName = 'Attributes' | 'Slots' | 'Events' | 'Exposes';
-
-type ComponentForm<
-	T extends ElFormComponents = keyof T,
-	K extends BehaviorName
-> = ElFormComponents [T] [K];
-
-export interface ComponentFormElement<T extends keyof ElFormComponents> {
+export interface ComponentFormElement<T extends ElComponentsNames> {
 	label?: string;
 	component?: T;
-	attributes?: ComponentForm<T, 'Attributes'>;
-	slots?: ComponentForm<T, 'Slots'>;
-	events?: ComponentForm<T, 'Events'>;
-	exposes?: ComponentForm<T, 'Exposes'>;
+	attributes?: ElComponentsAttributes [T];
+	slots?: ElComponentsSlots [T];
+	events?: ElComponentsEvents [T];
 }
 
-export interface DataSourceForm<T extends keyof ElFormComponents> {
-	component?: keyof T;
-	form?: ComponentFormElement<T>;
-}
-
-export interface DataSchemas<T extends keyof ElFormComponents = T> extends DataSourceForm<T> {
+export interface DataSchemasSources {
 	field: string;
 	label?: string;
+	form?: ComponentFormElement<ElComponentsNames>;
+}
+
+export interface DataSchemasFrom<T extends ElComponentsNames> {
+	field: string;
+	label?: string;
+	form?: ComponentFormElement<T>;
 }
