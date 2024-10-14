@@ -1,0 +1,115 @@
+<script lang="tsx" setup>
+import {ref, onMounted, reactive, unref} from "vue";
+import ComponentForm from "@/components/component-form/src/component-form.vue";
+import type {ElComponentAttributes, ElComponentsAttributes} from "@/types/element-plus/attributes";
+import type {ElComponentSlots, ElComponentsSlots} from "@/types/element-plus/slots";
+import type {ElComponentsNames} from "@/plugin/element-plus";
+import type {ElComponentsEvents} from "@/types/element-plus/events";
+
+const usernameRef = ref(null);
+
+const dataSources = reactive({
+	username: "username-1",
+	password: "password-1",
+});
+
+const dataSchemas: {
+	[key: string]: {
+		form: {
+			col?: number | { attributes?: ElComponentAttributes<'ElCol'> };
+			item?: {
+				attributes?: ElComponentAttributes<'ElFormItem'>;
+				slots?: ElComponentSlots<'ElFormItem'>;
+			};
+			component?: ElComponentsNames;
+			attributes?: ElComponentsAttributes;
+			events?: ElComponentsEvents;
+			slots?: ElComponentsSlots;
+		};
+	};
+} = reactive({
+	username: {
+
+		form: {
+			component: 'ElInput',
+			item: {
+				attributes: {
+					label: '姓名',
+				},
+			},
+			attributes: {
+				placeholder: '测试',
+				showWordLimit: true,
+				modelValue: unref(dataSources.username),
+			},
+			slots: {},
+			events: {
+				blur: (data: any) => {
+				},
+			}
+		}
+	},
+	password: {
+		attributes: {
+			label: '密码',
+		},
+		form: {
+			attributes: {
+				type: 'number',
+				showWordLimit: true,
+				modelValue: dataSources.password,
+			},
+			slots: {
+				default: (data: any): JSX.Element => {
+					return (<>{{data}}</>);
+				},
+			},
+			events: {
+				focus(event: FocusEvent): void {
+					action(event);
+				},
+			},
+		}
+	}
+});
+
+const action = (event: FocusEvent) => {
+	console.log('event ::::---===', event);
+	if (dataSchemas?.username?.form?.attributes?.modelValue) {
+		(dataSchemas.username.form.attributes.modelValue as string) = '呢好';
+	}
+};
+
+setTimeout(() => {
+	console.log(
+		usernameRef.value
+	)
+}, 2e3);
+
+const formRef = ref(null);
+
+onMounted(() => {
+
+	console.log('menuView', formRef.value, formRef.value?.refs);
+
+});
+
+
+const validate = {
+	component: 'ElInput',
+
+};
+
+</script>
+<template>
+
+	<!--	<ElComponentForm ref="formRef"-->
+	<!--					 :data-schemas="dataSchemas"-->
+	<!--					 :data-sources="dataSources"-->
+	<!--	/>-->
+
+	<ComponentForm :data-schemas="dataSchemas"
+				   :data-sources="dataSources"
+	/>
+
+</template>

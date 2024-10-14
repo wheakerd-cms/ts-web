@@ -7,6 +7,16 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ComponentButtonGroup: typeof import('./src/components/component-button-group/src/component-button-group.vue')['default']
+    ComponentDialog: typeof import('./src/components/component-dialog/src/component-dialog.vue')['default']
+    ComponentForm: typeof import('./src/components/component-form/src/component-form.vue')['default']
+    ComponentFormItem: typeof import('./src/components/component-form-item/src/component-form-item.vue')['default']
+    ComponentTable: typeof import('./src/components/component-table/src/component-table.vue')['default']
+    CustomComponent: typeof import('./src/components/utils/CustomComponent.vue')['default']
+    CustomForm: typeof import('./src/components/utils/CustomForm.vue')['default']
+    CustomFormChild: typeof import('./src/components/utils/CustomFormChild.vue')['default']
+    CustomFormComponent: typeof import('./src/components/utils/CustomForm.vue')['default']
+    CustomFormItem: typeof import('./src/components/utils/CustomFormItem.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
@@ -19,8 +29,10 @@ declare module 'vue' {
     ElDivider: typeof import('element-plus/es')['ElDivider']
     ElFooter: typeof import('element-plus/es')['ElFooter']
     ElForm: typeof import('element-plus/es')['ElForm']
+    ElFormComponent: typeof import('./src/components/element-plus/el-form-component/src/el-form-component.vue')['default']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElHeader: typeof import('element-plus/es')['ElHeader']
+    ElIcon: typeof import('element-plus/es')['ElIcon']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElMain: typeof import('element-plus/es')['ElMain']
     ElMenu: typeof import('element-plus/es')['ElMenu']
@@ -37,9 +49,8 @@ declare module 'vue' {
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTimePicker: typeof import('element-plus/es')['ElTimePicker']
     ErrorPageTypewriter: typeof import('./src/components/errorPage/ErrorPageTypewriter.vue')['default']
-    FormComponents: typeof import('./src/components/Form/src/ElComponentForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Src: typeof import('./src/components/element-plus/el-input/src/index.vue')['default']
+    Src: typeof import('./src/components/element-plus/element-plus-component/src/index.vue')['default']
   }
 }

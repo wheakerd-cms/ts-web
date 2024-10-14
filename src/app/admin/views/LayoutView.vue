@@ -61,7 +61,7 @@ const redirectRouter = (name: string) => {
 			<el-header class="h-auto px-0">
 				<ComponentHeader></ComponentHeader>
 			</el-header>
-			<el-main>
+			<el-main class="m-3 rounded-1 border bg-white">
 				<RouterView/>
 			</el-main>
 			<el-footer></el-footer>

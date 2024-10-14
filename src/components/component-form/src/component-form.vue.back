@@ -1,0 +1,117 @@
+<script lang="tsx">
+import {defineComponent} from "@vue/runtime-core";
+import {reactive, ref} from "vue";
+import DynamicComponent from '@/utils/DynamicComponent.vue';
+import type {ElComponentAttributes, ElComponentsAttributes} from "@/types/element-plus/attributes";
+import type {ElComponentEvents, ElComponentsEvents} from "@/types/element-plus/events";
+import type {ElComponentSlots, ElComponentsSlots} from "@/types/element-plus/slots";
+import {type ElComponentsNames} from "@/plugin/element-plus";
+
+export default defineComponent(
+	(
+		props: {
+			attributes?: ElComponentAttributes<'ElForm'>;
+			events?: ElComponentEvents<'ElInput'>;
+			row?: {
+				attributes?: ElComponentAttributes<'ElRow'>;
+			};
+			dataSchemas: {
+				[key: string]: {
+					form: {
+						col?: number | { attributes?: ElComponentAttributes<'ElCol'> };
+						item?: {
+							attributes?: ElComponentAttributes<'ElFormItem'>;
+							slots?: ElComponentSlots<'ElFormItem'>;
+						};
+						component?: ElComponentsNames;
+						attributes?: ElComponentsAttributes;
+						events?: ElComponentsEvents;
+						slots?: ElComponentsSlots;
+					};
+				};
+			};
+			dataSources: { [key: string]: any };
+		},
+		{
+			expose,
+		},
+	) => {
+		const formRef = ref(null);
+		const refs = reactive<({ [key: string]: InstanceType<any> | null })>({});
+
+		expose({
+			formRef,
+			refs,
+		});
+
+		return () => (<>
+			<DynamicComponent
+				component={'ElForm'}
+				attributes={props?.attributes}
+				events={props?.events}
+				slots={{
+					default: () => (<>
+						<DynamicComponent
+							component={'ElRow'}
+							attributes={props?.row?.attributes}
+							slots={{
+								default: () => Object.entries(props.dataSchemas).map(([field, item]) => {
+									console.log(item)
+									if (
+										!!item?.form
+										&& !!item?.form?.item
+										&& !!item?.form?.item?.attributes
+										&& !('prop' in item.form.item.attributes)
+									) {
+										item.form.item.attributes.prop = field;
+									}
+									return (<>
+										<DynamicComponent component={'ElCol'} slots={{
+											default: () => (<>
+												<DynamicComponent
+													component={'ElFormItem'}
+													attributes={item.form?.item?.attributes}
+													slots={{
+														...item.form?.item?.slots,
+														default: () => {
+															if (!!item.form?.attributes
+																&& 'modelValue' in item.form.attributes
+															) {
+																delete item.form.attributes.modelValue;
+															}
+															return <>
+																<DynamicComponent
+																	component={item.form?.component ?? 'ElInput'}
+																	{
+																		...item.form?.attributes
+																	}
+																	events={item.form?.events}
+																	slots={item.form?.slots}
+																/>
+															</>
+														},
+													}}
+												/>
+											</>),
+										}}/>
+									</>);
+								})
+							}}
+						/>
+					</>),
+				}}
+			/>
+		</>);
+	},
+	{
+		name: 'component-form',
+		props: [
+			'attributes',
+			'events',
+			'row',
+			'dataSchemas',
+			'dataSources',
+		],
+	}
+);
+</script>

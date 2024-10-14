@@ -6,7 +6,7 @@ import {
 	ElCol,
 	ElFormItem,
 } from "element-plus";
-import ElInput from '@/components/element-plus/el-input';
+import ElInput from '@/utils/element-plus/el-input';
 import type {ComponentFormElement, DataSchemasSources,} from "@/types/components";
 import type {ElComponentsNames} from "@/types/element-plus/form";
 
