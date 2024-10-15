@@ -48,9 +48,11 @@ declare module 'vue' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTimePicker: typeof import('element-plus/es')['ElTimePicker']
-    ErrorPageTypewriter: typeof import('./src/components/errorPage/ErrorPageTypewriter.vue')['default']
+    ElWwitch: typeof import('element-plus/es')['ElWwitch']
+    ErrorPageTypewriter: typeof import('./src/components/error-page/type-writer/src/ErrorPageTypewriter.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Src: typeof import('./src/components/element-plus/element-plus-component/src/index.vue')['default']
+    TypeWriter: typeof import('./src/components/error-page/type-writer.vue')['default']
   }
 }

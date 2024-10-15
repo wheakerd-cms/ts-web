@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, ref, unref} from "vue";
+import {computed, onMounted, provide, ref, unref} from "vue";
 import type {ComputedRef, Ref} from "vue";
 import ComponentMenu from "@/app/admin/components/ComponentMenu.vue";
 import logoImage from "@/assets/logo.svg?url";
@@ -61,8 +61,12 @@ const redirectRouter = (name: string) => {
 			<el-header class="h-auto px-0">
 				<ComponentHeader></ComponentHeader>
 			</el-header>
-			<el-main class="m-3 rounded-1 border bg-white">
-				<RouterView/>
+			<el-main id="main" class="m-3 rounded-1 border bg-white w-100 h-100">
+				<RouterView v-slot="{Component}">
+					<Transition name="fade">
+						<Component :is="Component"/>
+					</Transition>
+				</RouterView>
 			</el-main>
 			<el-footer></el-footer>
 		</el-container>

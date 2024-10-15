@@ -41,7 +41,7 @@ onMounted(() => {
 </template>
 
 <style lang="css">
-@import "bootstrap/scss/bootstrap.scss";
+@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
 
 /* cyrillic-ext */
 @font-face {

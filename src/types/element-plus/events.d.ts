@@ -4,8 +4,7 @@ import {
 } from "@/plugin/element-plus";
 import type {SFCWithInstall} from "element-plus/es/utils";
 import type {
-	ComponentOptionsBase,
-	ComputedOptions, ExtractPropTypes,
+	ComputedOptions,
 	MethodOptions,
 } from "@vue/runtime-core";
 
