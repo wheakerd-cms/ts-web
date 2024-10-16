@@ -1,4 +1,4 @@
-import type {ReturnTypeRouter} from "@/config/types";
+import type {ReturnTypeRouter} from "@/plugin/types";
 
 const routerModules: Record<string, unknown> =
     import.meta.glob(`/src/app/**/router/*.ts`, {

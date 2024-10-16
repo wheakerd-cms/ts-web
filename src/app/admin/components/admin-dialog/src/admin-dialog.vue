@@ -1,8 +1,14 @@
 <script lang="ts" setup>
 import {Close} from '@element-plus/icons-vue';
+import {dialogText} from "@/app/admin/plugin/config";
+
+defineOptions({
+	name: 'AdminDialog',
+});
 
 const props = defineProps<{
 	title?: string;
+	event?: string;
 	width?: '500 px';
 }>();
 
@@ -21,7 +27,14 @@ const modelValue = defineModel();
 	>
 		<template #header>
 			<div class="d-flex justify-content-between mx-2 mt-2">
-				<span>{{ props.title }}</span>
+				<span>
+					{{
+						!!props?.event
+						&& dialogText.hasOwnProperty(props?.event)
+							? dialogText [props.event]
+							: ''
+					}}
+				</span>
 				<div>
 					<el-icon>
 						<Close/>

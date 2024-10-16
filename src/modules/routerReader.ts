@@ -1,5 +1,5 @@
 import type {Router} from "vue-router";
-import {routerModules} from "@/config/modules";
+import {routerModules} from "@/plugin/modules";
 
 const getRouterPath = (app: string): string => {
 	return `/src/app/${app}/router/index.ts`;

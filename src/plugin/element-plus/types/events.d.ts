@@ -15,7 +15,7 @@ type ComponentPublicInstanceConstructor<T, Props = any, RawBindings = any, D = a
 	new(...args: any[]): T;
 };
 
-type ElComponentEvents<T extends ElComponentsNames> =
+type ElComponentEvents<T extends ElComponentsNames = T> =
 	T extends ElComponentsNames
 		? ElComponentsType [T] extends SFCWithInstall<infer C>
 			? C extends infer C & {

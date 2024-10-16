@@ -1,5 +1,6 @@
 //@import url(bootstrap);
 @import "bootstrap/scss/bootstrap.scss";
+@import "element-plus/dist/index.css";
 
 $theme-colors: (
 	dark: (
@@ -33,7 +34,7 @@ $themeMap: ();
 	@include theme(map-get($theme-colors, 'light'));
 }
 
-.flex-column{
+.flex-column {
 	flex-direction: column
 }
 

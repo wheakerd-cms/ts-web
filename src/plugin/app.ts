@@ -1,4 +1,4 @@
-import type {InterfaceConfigApp} from "@/config/types";
+import type {InterfaceConfigApp} from "@/plugin/types";
 
 export const appConfig: InterfaceConfigApp = {
 	defaultApp: 'admin',

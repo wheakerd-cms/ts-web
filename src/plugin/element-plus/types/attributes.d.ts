@@ -35,9 +35,10 @@ type ElComponentAttributes<T extends ElComponentsNames> =
 		: never
 	;
 
-type ElComponentsAttributes = ElComponentAttributes<ElComponentsNames>;
+interface ElComponentsAttributes extends ElComponentAttributes<ElComponentsNames> {
+}
 
 export {
-	ElComponentAttributes,
-	ElComponentsAttributes,
-};
+	type ElComponentAttributes,
+	type ElComponentsAttributes,
+}

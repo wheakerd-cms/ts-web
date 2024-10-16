@@ -4,10 +4,12 @@ import {
 	type ElComponentsNames,
 	ElementPlus,
 } from "@/plugin/element-plus";
-import type {ElComponentsAttributes} from "@/types/element-plus/attributes";
-import type {ElComponentsSlots} from "@/types/element-plus/slots";
+import type {
+	ElComponentsAttributes,
+	ElComponentsSlots,
+} from '@/plugin/element-plus';
 import {defineComponent} from "@vue/runtime-core";
-import type {ElComponentsEvents} from "@/types/element-plus/events";
+import type {ElComponentsEvents} from "@/plugin/element-plus/types/events";
 
 export default defineComponent(
 	(

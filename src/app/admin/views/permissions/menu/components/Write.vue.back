@@ -1,0 +1,90 @@
+<script lang="ts" setup>
+import Form from "@/app/admin/components/Form/src/Form.vue";
+import type {
+	ElComponentsNames,
+	ElComponentsAttributes,
+	ElComponentsEvents,
+	ElComponentsSlots,
+} from "@/plugin/element-plus";
+import {ElForm, type FormRules} from "element-plus";
+import {reactive, ref, watch} from "vue";
+
+defineOptions({
+	name: 'Write',
+});
+
+const props = defineProps<{
+	dataSchemes: {
+		[key: string]: {
+			label: string;
+			col?: number;
+			component: ElComponentsNames;
+			attributes?: ElComponentsAttributes;
+			events?: ElComponentsEvents;
+			slots?: ElComponentsSlots;
+		};
+	};
+}>();
+
+const model = defineModel<Record<string, any>>({});
+
+const formRef = ref<InstanceType<typeof Form> | null>(null);
+
+const rules = reactive<FormRules>({
+	type: [
+		{required: true, trigger: 'blur',},
+	],
+	parentId: [
+		{required: true, trigger: 'blur',},
+	],
+	menuName: [
+		{required: true, trigger: 'blur',},
+	],
+	name: [
+		{required: true, trigger: 'blur',},
+	],
+	path: [
+		{required: true, trigger: 'blur',},
+	],
+	component: [
+		{required: true, trigger: 'blur',},
+	],
+	icon: [
+		{required: true, trigger: 'blur',},
+	],
+	permissions: [
+		{required: true, trigger: 'blur',},
+	],
+	status: [
+		{required: true, trigger: 'blur',},
+	],
+	dev: [
+		{required: true, trigger: 'blur',},
+	],
+	fixed: [
+		{required: true, trigger: 'blur',},
+	],
+});
+
+
+const Submit = async () => {
+	const formElRef: InstanceType<typeof ElForm> | null | undefined = formRef.value?.formElRef;
+	if (!formElRef) return;
+	const validate = await formElRef.validate().catch((err) => console.log(err));
+	if (validate) {
+		return model.value;
+	}
+};
+
+defineExpose({
+	formRef,
+	Submit,
+});
+</script>
+<template>
+	<Form ref="formRef"
+		  v-model="model"
+		  :rules="rules"
+		  :data-schemes="props.dataSchemes"
+	/>
+</template>

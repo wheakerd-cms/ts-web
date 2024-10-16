@@ -1,6 +1,6 @@
-import type {ReturnTypeRouter} from "@/config/types";
+import type {ReturnTypeRouter} from "@/plugin/types";
 import type {RouteRecordRaw} from "vue-router";
-import {viewModules} from "@/config/modules";
+import {viewModules} from "@/plugin/modules";
 import {cloneDeep} from "lodash";
 
 const getRoutes = (routes: RouteRecordRaw [], layout: ReturnTypeRouter<unknown> | { name: string }) => {
