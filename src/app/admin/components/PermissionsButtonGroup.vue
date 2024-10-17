@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 import {permissionsButton} from "../plugin/config";
-import {ElTable} from "element-plus";
-import {onMounted} from "vue";
 
 defineOptions({
 	name: 'PermissionsButtonGroup',

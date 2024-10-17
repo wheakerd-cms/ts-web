@@ -11,6 +11,7 @@ const permissionStore = usePermissionStore();
 
 // request interceptor
 const requestInterceptors = (config: InternalAxiosRequestConfig<any>) => {
+	config.timeout = 6e3;
 	if (!!permissionStore.getToken) {
 		config.headers [permissionStore.getTokenKey] = permissionStore.getToken;
 	}
@@ -27,14 +28,13 @@ const responseInterceptors: [
 		// do something on response data
 		const {
 			headers,
+			data,
 		} = response;
 
 		if (!!headers && headers.hasOwnProperty(permissionStore.getTokenKey)) {
 			const token: string = headers [permissionStore.getTokenKey] as string;
 			permissionStore.setToken(token);
 		}
-
-		const {data} = response.data;
 
 		return data;
 	},

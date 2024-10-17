@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 
 defineOptions({
-	name: 'Pagination',
+	name: 'AdminPagination',
 });
 
 const props = withDefaults(defineProps<{
