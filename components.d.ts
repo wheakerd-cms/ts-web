@@ -34,7 +34,7 @@ declare module 'vue' {
     PlusTable: typeof import('./src/components/element-plus/plus-table/src/plus-table.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TypeWriter: typeof import('./src/components/error-page/type-writer.vue')['default']
+    TypeWriter: typeof import('./src/components/error-page/type-writer/src/type-writer.vue')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']

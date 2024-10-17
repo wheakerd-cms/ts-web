@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import ErrorPageTypewriter from "@/components/errorPage/ErrorPageTypewriter.vue";
+import TypeWriter from "@/components/error-page/type-writer";
 </script>
 <template>
-	<ErrorPageTypewriter/>
+	<TypeWriter/>
 </template>

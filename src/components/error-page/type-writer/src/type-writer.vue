@@ -35,14 +35,12 @@ onMounted(() => {
 	<div class="min-vw-100 min-vh-100 overflow-hidden background" style="background-color: #161618">
 		<div ref="divRef"
 			 class="bg-opacity-10 w-75 position-fixed top-50 start-50 translate-middle py-5 px-5 position-relative"
-			 style="box-shadow: 0 0 150px -20px rgba(0, 0, 0, 0.8);z-index: 1;">
+			 style="box-shadow: 0 0 150px -20px rgba(0, 0, 0, 0.8);z-index: 10;">
 		</div>
 	</div>
 </template>
 
 <style lang="css">
-@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
-
 /* cyrillic-ext */
 @font-face {
 	font-family: 'Montserrat';
@@ -165,5 +163,6 @@ a.avatar img {
 	display: block;
 	content: '404';
 	font-size: calc(0.8 * (100vw + 100vh) / 2);
+	z-index: -1;
 }
 </style>
