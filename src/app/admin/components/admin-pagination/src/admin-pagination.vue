@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-
 defineOptions({
 	name: 'AdminPagination',
 });
@@ -17,27 +16,22 @@ const props = withDefaults(defineProps<{
 
 const currentPage = defineModel('currentPage', {
 	type: Number,
-	default: 1,
+	required: true,
 });
 const pageSize = defineModel('pageSize', {
 	type: Number,
-	default: 10,
+	required: true,
 });
 const total = defineModel('total', {
 	type: Number,
-	default: 0,
+	required: true,
 });
 
-const emits = defineEmits<{
-	sizeChange: [value: number];
-	currentChange: [value: number];
-}>();
-
 const sizeChange = (value: number) => {
-	emits('sizeChange', value);
+	pageSize.value = value;
 };
 const currentChange = (value: number) => {
-	emits('currentChange', value);
+	currentPage.value = value;
 };
 </script>
 <template>
@@ -50,6 +44,7 @@ const currentChange = (value: number) => {
 					   :background="props.background"
 					   layout="total, sizes, prev, pager, next, jumper"
 					   :total="total"
+					   hide-on-single-page
 					   @size-change="sizeChange"
 					   @current-change="currentChange"
 		/>

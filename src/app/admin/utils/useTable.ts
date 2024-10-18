@@ -1,4 +1,4 @@
-import {nextTick, type Ref, ref, unref} from "vue";
+import {nextTick, type Ref, ref, unref, watch} from "vue";
 import {ElTable} from "element-plus";
 
 export const useTable = (config: {
@@ -7,6 +7,7 @@ export const useTable = (config: {
 		total?: number;
 	}>;
 	delDataApi?: () => Promise<boolean>;
+	UpdateDataApi?: (id: number, column: Object) => Promise<boolean>;
 }) => {
 	const tableRef = ref<InstanceType<typeof ElTable>>();
 	const tableData: Ref<any> = ref([]);
@@ -49,7 +50,7 @@ export const useTable = (config: {
 				loading.value = false;
 			}
 		},
-		refreshTableData: async () => {
+		refreshTableData: async (): Promise<void> => {
 			await tableMethod.loadTableData();
 		},
 		deleteTableDataApi: async () => {
@@ -79,7 +80,27 @@ export const useTable = (config: {
 			const tableRef = await getTableRef();
 			ids.value = tableRef?.getSelectionRows().map((item: Record<string, any>) => item.id);
 		},
+		UpdateTableColumn: async (id: number, column: any): Promise<boolean> => {
+			const {UpdateDataApi} = config;
+			if (!UpdateDataApi) {
+				console.warn('UpdateDataApi is undefined');
+				return false;
+			}
+			try {
+				const res: boolean = await UpdateDataApi(id, column);
+				console.log('UpdateDataApi res', res);
+				return res;
+			} catch (err) {
+				console.log('UpdateDataApi error');
+				return false;
+			}
+		},
 	};
+
+	watch(
+		() => pageSize.value,
+		() => tableMethod.refreshTableData(),
+	);
 
 	return {
 		tableRegister,

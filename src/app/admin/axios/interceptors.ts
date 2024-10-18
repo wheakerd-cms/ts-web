@@ -6,6 +6,7 @@ import {
 import {usePermissionStore} from "@/app/admin/stores/permissionStore";
 import {ElMessage} from "element-plus";
 import {SUCCESS_CODE} from "@/app/admin/axios/config";
+import router from "@/app/admin/router";
 
 const permissionStore = usePermissionStore();
 
@@ -48,7 +49,8 @@ const responseInterceptors: [
 		});
 
 		if (status === 401) {
-
+			permissionStore.$reset();
+			router.push({path: '/login'});
 		}
 	},
 ];
